@@ -10,9 +10,10 @@ I am currently looking for a full-time role where I can work on applied AI probl
 
 Scientific document intelligence application for uploading PDFs, generating summaries, extracting keywords, comparing papers, and asking retrieval-grounded questions over scientific documents.
 
-Includes PDF ingestion, section-aware chunking, MongoDB persistence, local vector search, cited answers, retrieval evaluation, FastAPI backend, Streamlit UI, Docker Compose, tests, and CI.
+Includes PDF ingestion, section-aware chunking, MongoDB persistence, semantic retrieval, cited answers, retrieval evaluation, FastAPI backend, Streamlit UI, Docker Compose, tests, and CI.
 
-**Highlights:** evaluated RAG pipeline with cited answers, clear separation between MongoDB document storage and vector-based retrieval, and local-first deployment.
+**Highlights:** evaluated RAG pipeline with cited answers, clear separation between document storage and retrieval, and measurable retrieval quality.
+
 
 ### [Velib Demand Forecasting](https://github.com/zakilbaki/velib-demand-forecasting)
 
