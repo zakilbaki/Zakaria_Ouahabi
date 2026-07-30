@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Lang = "en" | "fr";
+type HeroProjectId = "velib" | "paperpal" | "defect" | "brain" | "cryosens";
 
 const projects = [
   {
@@ -57,6 +58,56 @@ const projects = [
   },
 ];
 
+const heroProjects: Array<{
+  id: HeroProjectId;
+  shortTitle: string;
+  title: string;
+  category: string;
+  en: string;
+  fr: string;
+}> = [
+  {
+    id: "velib",
+    shortTitle: "Vélib",
+    title: "Vélib Demand Forecasting",
+    category: "Forecasting · MLOps",
+    en: "Live-style preview of next-hour bike availability forecasting.",
+    fr: "Aperçu d’une prévision de disponibilité des vélos à une heure.",
+  },
+  {
+    id: "paperpal",
+    shortTitle: "PaperPal",
+    title: "PaperPal",
+    category: "NLP · Document Intelligence",
+    en: "From a scientific PDF to a structured summary and relevant passages.",
+    fr: "D’un PDF scientifique à un résumé structuré et des passages pertinents.",
+  },
+  {
+    id: "defect",
+    shortTitle: "Defects",
+    title: "Industrial Defect Prediction",
+    category: "Classification · Industrial ML",
+    en: "A rare-event classification workflow designed around chronological data.",
+    fr: "Un workflow de classification d’événements rares respectant la chronologie.",
+  },
+  {
+    id: "brain",
+    shortTitle: "MRI",
+    title: "Brain Tumor Detection",
+    category: "Computer Vision · Explainable AI",
+    en: "MRI classification paired with Grad-CAM model explanations.",
+    fr: "Classification d’IRM accompagnée d’explications du modèle par Grad-CAM.",
+  },
+  {
+    id: "cryosens",
+    shortTitle: "CryoSens",
+    title: "CryoSens Analytics",
+    category: "Time Series · Sensor Analytics",
+    en: "Interactive detection of rapid variations and operating cycles.",
+    fr: "Détection interactive des variations rapides et des cycles de fonctionnement.",
+  },
+];
+
 const experiences = [
   {
     year: "2026",
@@ -101,87 +152,234 @@ const skillGroups = [
   ["Visualization & Apps", "Streamlit", "Plotly", "Matplotlib", "Jupyter", "Interactive Dashboards"],
 ];
 
-function NetworkHero({ lang }: { lang: Lang }) {
+function VelibVisual({ lang }: { lang: Lang }) {
   const t = (en: string, fr: string) => (lang === "en" ? en : fr);
-
   return (
-    <div className="network-shell" aria-label={t("Animated data network", "Réseau de données animé")}>
-      <div className="network-grid" />
-      <div className="network-orb network-orb-one" />
-      <div className="network-orb network-orb-two" />
-
-      <svg className="network-svg" viewBox="0 0 620 620" role="img">
-        <defs>
-          <linearGradient id="networkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="55%" stopColor="#5b7cfa" />
-            <stop offset="100%" stopColor="#22d3ee" />
-          </linearGradient>
-          <filter id="networkGlow">
-            <feGaussianBlur stdDeviation="5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <g className="network-links">
-          <path d="M310 310 C250 245 190 205 118 164" />
-          <path d="M310 310 C385 235 450 190 514 126" />
-          <path d="M310 310 C405 335 472 380 548 424" />
-          <path d="M310 310 C250 390 205 440 130 500" />
-          <path d="M310 310 C295 225 305 135 310 70" />
-          <path d="M310 310 C330 390 330 480 330 552" />
-          <path d="M118 164 C210 115 240 95 310 70" />
-          <path d="M514 126 C465 225 500 330 548 424" />
-          <path d="M130 500 C235 545 275 552 330 552" />
-        </g>
-
-        <g filter="url(#networkGlow)">
-          <circle className="network-core-ring" cx="310" cy="310" r="92" />
-          <circle className="network-core" cx="310" cy="310" r="58" />
-          <circle className="network-node node-one" cx="118" cy="164" r="16" />
-          <circle className="network-node node-two" cx="514" cy="126" r="16" />
-          <circle className="network-node node-three" cx="548" cy="424" r="16" />
-          <circle className="network-node node-four" cx="130" cy="500" r="16" />
-          <circle className="network-node node-five" cx="310" cy="70" r="16" />
-          <circle className="network-node node-six" cx="330" cy="552" r="16" />
-        </g>
-
-        <circle className="network-packet" r="6">
-          <animateMotion dur="4.6s" repeatCount="indefinite" path="M118 164 C190 205 250 245 310 310" />
-        </circle>
-        <circle className="network-packet packet-two" r="5">
-          <animateMotion dur="5.3s" begin="-.8s" repeatCount="indefinite" path="M514 126 C450 190 385 235 310 310" />
-        </circle>
-        <circle className="network-packet packet-three" r="5">
-          <animateMotion dur="4.2s" begin="-1.7s" repeatCount="indefinite" path="M310 310 C405 335 472 380 548 424" />
-        </circle>
-        <circle className="network-packet packet-four" r="5">
-          <animateMotion dur="5.8s" begin="-2.5s" repeatCount="indefinite" path="M130 500 C205 440 250 390 310 310" />
-        </circle>
-      </svg>
-
-      <div className="network-core-label">
-        <span>AI</span>
-        <small>{t("systems", "systèmes")}</small>
+    <div className="hero-visual hero-visual-velib">
+      <div className="visual-toolbar">
+        <span className="visual-live-dot" />
+        <span>{t("Paris station · Forecast +1h", "Station parisienne · Prévision +1 h")}</span>
+        <strong>R² 0.94</strong>
       </div>
-
-      <div className="network-label label-ml"><span>ML</span><small>{t("Predict", "Prédire")}</small></div>
-      <div className="network-label label-nlp"><span>NLP</span><small>{t("Understand", "Comprendre")}</small></div>
-      <div className="network-label label-data"><span>DATA</span><small>{t("Structure", "Structurer")}</small></div>
-      <div className="network-label label-api"><span>API</span><small>{t("Serve", "Déployer")}</small></div>
-      <div className="network-label label-time"><span>TS</span><small>{t("Forecast", "Prévoir")}</small></div>
-      <div className="network-label label-ops"><span>OPS</span><small>{t("Deliver", "Livrer")}</small></div>
-
-      <div className="network-status">
-        <span className="network-status-dot" />
-        <div>
-          <strong>{t("From model to product", "Du modèle au produit")}</strong>
-          <small>{t("Data · Intelligence · Delivery", "Données · Intelligence · Déploiement")}</small>
+      <div className="velib-layout">
+        <div className="velib-map" aria-hidden="true">
+          <span className="map-road road-one" />
+          <span className="map-road road-two" />
+          <span className="map-road road-three" />
+          <span className="station-dot station-one" />
+          <span className="station-dot station-two" />
+          <span className="station-dot station-three active" />
+          <span className="station-dot station-four" />
+          <span className="station-dot station-five" />
+          <div className="station-popover">
+            <span>{t("Selected station", "Station sélectionnée")}</span>
+            <strong>{t("Next-hour forecast", "Prévision à une heure")}</strong>
+          </div>
+        </div>
+        <div className="velib-chart-card">
+          <div className="chart-heading">
+            <span>{t("Bike availability", "Disponibilité des vélos")}</span>
+            <small>{t("Observed", "Observé")} / {t("Forecast", "Prévision")}</small>
+          </div>
+          <svg viewBox="0 0 360 170" className="forecast-chart" aria-hidden="true">
+            <g className="chart-grid-lines">
+              <line x1="20" y1="30" x2="340" y2="30" />
+              <line x1="20" y1="80" x2="340" y2="80" />
+              <line x1="20" y1="130" x2="340" y2="130" />
+            </g>
+            <path className="observed-line" d="M20 116 C62 105 78 60 115 72 S166 112 205 78" />
+            <path className="forecast-line" d="M205 78 C242 44 272 58 305 40 S327 35 340 28" />
+            <line className="forecast-divider" x1="205" y1="20" x2="205" y2="145" />
+            <circle className="chart-point" cx="205" cy="78" r="5" />
+          </svg>
+          <div className="chart-footer"><span>Now</span><span>+1h</span></div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function PaperPalVisual({ lang }: { lang: Lang }) {
+  const t = (en: string, fr: string) => (lang === "en" ? en : fr);
+  return (
+    <div className="hero-visual hero-visual-paperpal">
+      <div className="visual-toolbar">
+        <span className="document-icon">PDF</span>
+        <span>scientific-paper.pdf</span>
+        <strong>{t("Document intelligence", "Intelligence documentaire")}</strong>
+      </div>
+      <div className="paperpal-layout">
+        <div className="paper-preview">
+          <div className="paper-title-line" />
+          <div className="paper-line width-90" />
+          <div className="paper-line width-78" />
+          <div className="paper-highlight" />
+          <div className="paper-line width-84" />
+          <div className="paper-line width-65" />
+          <div className="paper-figure"><span /><span /><span /><span /></div>
+        </div>
+        <div className="paper-results">
+          <div className="result-card summary-card">
+            <div className="result-title"><span>{t("Generated summary", "Résumé généré")}</span><b>✓</b></div>
+            <div className="summary-line width-90" />
+            <div className="summary-line width-78" />
+            <div className="summary-line width-84" />
+          </div>
+          <div className="result-card">
+            <div className="result-title"><span>{t("Keywords", "Mots-clés")}</span><b>5</b></div>
+            <div className="keyword-row"><span>retrieval</span><span>science</span><span>NLP</span></div>
+          </div>
+          <div className="result-card retrieval-card">
+            <div className="result-title"><span>{t("Relevant passages", "Passages pertinents")}</span><b>{t("Experimental", "Expérimental")}</b></div>
+            <div className="retrieval-line"><span>p. 4</span><i /></div>
+            <div className="retrieval-line"><span>p. 7</span><i /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DefectVisual({ lang }: { lang: Lang }) {
+  const t = (en: string, fr: string) => (lang === "en" ? en : fr);
+  return (
+    <div className="hero-visual hero-visual-defect">
+      <div className="visual-toolbar">
+        <span className="visual-live-dot defect-dot" />
+        <span>{t("Chronological production stream", "Flux de production chronologique")}</span>
+        <strong>0.9% {t("defects", "défauts")}</strong>
+      </div>
+      <div className="defect-layout">
+        <div className="timeline-strip">
+          <div><span>{t("Past", "Passé")}</span><strong>{t("Training", "Entraînement")}</strong></div>
+          <i />
+          <div><span>{t("Future", "Futur")}</span><strong>{t("Test", "Test")}</strong></div>
+        </div>
+        <div className="conveyor-scene">
+          <div className="scanner"><span>ML</span></div>
+          <div className="conveyor-belt">
+            {[0, 1, 2, 3, 4, 5].map((item) => <span className={`product-box product-${item} ${item === 4 ? "flagged" : ""}`} key={item}>{item === 4 ? "!" : ""}</span>)}
+          </div>
+          <div className="risk-card">
+            <span>{t("Defect risk", "Risque de défaut")}</span>
+            <strong>0.84</strong>
+            <small>{t("Flagged for review", "Signalé pour vérification")}</small>
+          </div>
+        </div>
+        <div className="defect-flow">
+          <span>{t("Past-only features", "Variables fondées sur le passé")}</span><i>→</i><span>{t("Risk score", "Score de risque")}</span><i>→</i><span>{t("Human review", "Vérification humaine")}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BrainVisual({ lang }: { lang: Lang }) {
+  const t = (en: string, fr: string) => (lang === "en" ? en : fr);
+  return (
+    <div className="hero-visual hero-visual-brain">
+      <div className="visual-toolbar">
+        <span className="visual-live-dot brain-dot" />
+        <span>{t("MRI research preview", "Aperçu de recherche sur IRM")}</span>
+        <strong>Grad-CAM</strong>
+      </div>
+      <div className="brain-layout">
+        <div className="mri-panel">
+          <div className="mri-scan">
+            <div className="brain-shape brain-left" />
+            <div className="brain-shape brain-right" />
+            <div className="gradcam-spot gradcam-one" />
+            <div className="gradcam-spot gradcam-two" />
+            <div className="scan-line" />
+          </div>
+          <div className="mri-caption"><span>{t("Model focus", "Zone observée par le modèle")}</span><strong>{t("Tumor pattern", "Motif tumoral")}</strong></div>
+        </div>
+        <div className="brain-metrics">
+          <div><strong>88%</strong><span>Accuracy</span></div>
+          <div><strong>97%</strong><span>{t("Tumor recall", "Rappel tumeur")}</span></div>
+          <div><strong>0.92</strong><span>PR AUC</span></div>
+          <p>{t("Research and educational project, not for clinical diagnosis.", "Projet de recherche et d’apprentissage, non destiné au diagnostic clinique.")}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CryoSensVisual({ lang }: { lang: Lang }) {
+  const t = (en: string, fr: string) => (lang === "en" ? en : fr);
+  return (
+    <div className="hero-visual hero-visual-cryosens">
+      <div className="visual-toolbar">
+        <span className="visual-live-dot cryo-dot" />
+        <span>{t("Industrial sensor signal", "Signal de capteur industriel")}</span>
+        <strong>{t("Event detection", "Détection d’événement")}</strong>
+      </div>
+      <div className="cryo-layout">
+        <div className="signal-legend"><span><i className="legend-temp" />Temperature</span><span><i className="legend-event" />{t("Detected event", "Événement détecté")}</span></div>
+        <svg viewBox="0 0 620 280" className="sensor-chart" aria-hidden="true">
+          <g className="sensor-grid">
+            <line x1="30" y1="50" x2="590" y2="50" />
+            <line x1="30" y1="120" x2="590" y2="120" />
+            <line x1="30" y1="190" x2="590" y2="190" />
+            <line x1="30" y1="250" x2="590" y2="250" />
+          </g>
+          <rect className="event-zone" x="350" y="25" width="92" height="225" rx="12" />
+          <path className="sensor-line" d="M30 202 C72 196 100 205 138 190 S200 183 240 178 S302 176 340 164 C360 155 366 76 390 64 C414 52 425 184 458 176 S520 160 590 166" />
+          <circle className="event-point" cx="390" cy="64" r="7" />
+        </svg>
+        <div className="event-card"><span>{t("Rapid variation detected", "Variation rapide détectée")}</span><strong>{t("Heating cycle", "Cycle de chauffage")}</strong><small>{t("Cross-sensor event ready for review", "Événement multi-capteurs prêt à être analysé")}</small></div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectVisual({ id, lang }: { id: HeroProjectId; lang: Lang }) {
+  if (id === "velib") return <VelibVisual lang={lang} />;
+  if (id === "paperpal") return <PaperPalVisual lang={lang} />;
+  if (id === "defect") return <DefectVisual lang={lang} />;
+  if (id === "brain") return <BrainVisual lang={lang} />;
+  return <CryoSensVisual lang={lang} />;
+}
+
+function HeroProjectShowcase({ lang }: { lang: Lang }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const activeProject = heroProjects[activeIndex];
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setTimeout(() => {
+      setActiveIndex((current) => (current + 1) % heroProjects.length);
+    }, 5600);
+    return () => window.clearTimeout(timer);
+  }, [activeIndex, paused]);
+
+  return (
+    <div className={`project-showcase showcase-${activeProject.id}`} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div className="showcase-topbar">
+        <div className="window-controls"><span /><span /><span /></div>
+        <span>{activeProject.category}</span>
+        <strong>{String(activeIndex + 1).padStart(2, "0")} / 05</strong>
+      </div>
+
+      <div className="showcase-content" key={activeProject.id}>
+        <div className="showcase-copy">
+          <span className="showcase-kicker">{lang === "en" ? "Selected project" : "Projet sélectionné"}</span>
+          <h2>{activeProject.title}</h2>
+          <p>{lang === "en" ? activeProject.en : activeProject.fr}</p>
+        </div>
+        <ProjectVisual id={activeProject.id} lang={lang} />
+      </div>
+
+      <div className="showcase-navigation" aria-label={lang === "en" ? "Project previews" : "Aperçus des projets"}>
+        {heroProjects.map((project, index) => (
+          <button type="button" className={index === activeIndex ? "active" : ""} onClick={() => setActiveIndex(index)} key={project.id} aria-label={project.title} aria-pressed={index === activeIndex}>
+            <span>{project.shortTitle}</span>
+            <i />
+          </button>
+        ))}
+      </div>
+      <div className="showcase-progress" key={`progress-${activeIndex}`}><span /></div>
     </div>
   );
 }
@@ -212,7 +410,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <header id="home" className="container-shell grid min-h-[760px] items-center gap-12 py-16 md:grid-cols-[1.05fr_.95fr]">
+      <header id="home" className="container-shell grid min-h-[800px] items-center gap-12 py-16 lg:grid-cols-[.88fr_1.12fr]">
         <div className="hero-copy">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/70 px-3 py-1.5 text-sm">
             <span className="availability-dot h-2 w-2 rounded-full bg-[var(--accent)]" />
@@ -243,7 +441,7 @@ export default function Home() {
           </div>
         </div>
 
-        <NetworkHero lang={lang} />
+        <HeroProjectShowcase lang={lang} />
       </header>
 
       <section id="projects" className="section border-t border-[var(--border)]">
