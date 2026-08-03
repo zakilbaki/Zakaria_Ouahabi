@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Z monogram</title>
+  <g stroke="#07275f" stroke-width="2.6" stroke-linejoin="miter">
+    <path fill="#36c6c8" d="M8 14 13 8h40l-5 6Z"/>
+    <path fill="#0b4a9b" d="m48 14 5-6v10l-5 6Z"/>
+    <path fill="#25c4ee" d="M8 14h40v10H37L20 43H9l18-19H8Z"/>
+    <path fill="#13bde8" d="m37 24h11L21 51H9v-8h11Z"/>
+    <path fill="#36c6c8" d="m9 43 5-5h40l-5 5Z"/>
+    <path fill="#0b4a9b" d="m49 43 5-5v10l-5 6Z"/>
+    <path fill="#25c4ee" d="M9 43h40v11H9Z"/>
+  </g>
+</svg>
