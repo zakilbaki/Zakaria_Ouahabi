@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Portfolio of Zakaria Ouahabi, Data Scientist and AI Engineer."
+      content="Zakaria Ouahabi's data science portfolio: scientific document AI, bike availability forecasting, computer vision, fraud detection and industrial machine learning."
     />
     <meta name="theme-color" content="#182830" />
     <title>Zakaria Ouahabi | Data Scientist</title>
     <link rel="stylesheet" href="assets/css/styles.css?v=20260803-fraud-story-generic" />
+    <link rel="stylesheet" href="assets/css/refinements.css?v=20260909" />
+    <link rel="icon" href="assets/logos/z-signature.png" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -24,6 +26,8 @@
         <span aria-hidden="true"></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
         <a href="#about">About</a>
         <a href="assets/docs/Zakaria_Ouahabi_CV.pdf" target="_blank">Resume</a>
         <a href="#contact">Contact</a>
@@ -68,33 +72,36 @@
       <section class="section projects-section" id="projects" aria-labelledby="projects-title">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">Selected Work</p>
-            <h2 id="projects-title">Projects</h2>
+            <p class="section-kicker">The portfolio</p>
+            <h2 id="projects-title">Selected projects<span class="project-count" aria-hidden="true"> / 05</span></h2>
             <p class="projects-intro">
-              Scientific documents, forecasting, computer vision, risk modeling and industrial data.
-              Open a project to explore the complete story.
+              Different problems. A shared focus on making data useful.
             </p>
           </div>
-          <div class="filter-tabs" id="project-filters" role="tablist" aria-label="Filter projects"></div>
+          <div class="filter-tabs" id="project-filters" role="group" aria-label="Filter projects"></div>
         </div>
-        <div class="project-grid" id="project-grid" aria-live="polite"></div>
+        <p class="sr-only" id="project-status" role="status"></p>
+        <div class="project-grid" id="project-grid"></div>
+        <noscript><p>Explore the project notebooks and source code on <a href="https://github.com/zakilbaki">GitHub</a>.</p></noscript>
       </section>
 
       <section class="section about-home" id="about" aria-labelledby="about-title">
         <div>
           <p class="section-kicker">About</p>
-          <h2 id="about-title">From analysis to a usable system.</h2>
+          <h2 id="about-title">The work behind the model.</h2>
         </div>
         <div class="about-copy">
           <p>
-            I am a data scientist focused on applied AI, machine learning systems and
-            industrial data. I enjoy moving from exploration and validation to an
-            interface or API that makes the result useful.
+            I work with data that comes from real processes: sensor readings, production
+            records, city infrastructure and scientific documents. My experience at
+            Alfa Laval and VTEC connects that work to engineering questions.
           </p>
           <p>
-            My work covers scientific documents, time series, computer vision and sensor
-            data, with Python as the common thread.
+            I care about what happens on either side of a prediction: how the data is
+            prepared, how the result is tested, and how someone will use it. That is why
+            these projects include the analysis, the model and the application around it.
           </p>
+          <a class="text-link" href="assets/docs/Zakaria_Ouahabi_CV.pdf" target="_blank" rel="noreferrer">Read my resume <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
@@ -107,38 +114,63 @@
           <a class="text-link" href="assets/docs/Zakaria_Ouahabi_CV.pdf">Resume PDF</a>
         </div>
         <div class="professional-list">
-          <details class="professional-entry">
+          <details class="professional-entry" open>
             <summary>
               <span class="professional-entry-index">01</span>
               <span class="professional-entry-main">
-                <small>Alfa Laval · Golbey, France</small>
-                <strong>Data Scientist Intern</strong>
+                <strong>Alfa Laval</strong>
+                <small>Data Scientist Intern · Golbey, France</small>
               </span>
               <span class="professional-entry-date">Mar 2026 - Sep 2026</span>
               <span class="professional-entry-icon" aria-hidden="true">+</span>
             </summary>
             <div class="professional-entry-content">
-              <p>
-                AI-assisted industrial sizing, technical data harmonization and regression
-                modeling for heat-exchanger configurations.
-              </p>
+              <div>
+                <h3>Turning engineering records into reusable data.</h3>
+                <p>I worked on AI-assisted sizing for industrial heat exchangers, bringing
+                  heterogeneous technical records into a consistent data model for analysis
+                  and regression modeling.</p>
+                <ul class="experience-contributions">
+                  <li>Extracted and harmonized technical data with Python.</li>
+                  <li>Structured projects, equipment, case studies and streams in SQLite.</li>
+                  <li>Explored regression models for heat-exchanger configurations.</li>
+                </ul>
+                <p class="experience-tools">Python <span>·</span> SQLite <span>·</span> Data modeling <span>·</span> Regression</p>
+              </div>
+              <div class="experience-deliverable">
+                <p class="section-kicker">Engineering data</p>
+                <p>A relational foundation connecting equipment configurations to their operating cases.</p>
+                <a class="text-link experience-artifact" href="assets/visuals/source/alfa-laval-schema.png" target="_blank" rel="noreferrer">View database schema <span aria-hidden="true">↗</span></a>
+              </div>
             </div>
           </details>
           <details class="professional-entry">
             <summary>
               <span class="professional-entry-index">02</span>
               <span class="professional-entry-main">
-                <small>VTEC Lasers &amp; Sensors · Eindhoven, Netherlands</small>
-                <strong>Data Scientist Intern</strong>
+                <strong>VTEC Lasers &amp; Sensors</strong>
+                <small>Data Scientist Intern · Eindhoven, Netherlands</small>
               </span>
               <span class="professional-entry-date">Jun 2025 - Sep 2025</span>
               <span class="professional-entry-icon" aria-hidden="true">+</span>
             </summary>
             <div class="professional-entry-content">
-              <p>
-                End-to-end PM10 forecasting from sensor data, from exploratory analysis and
-                feature engineering to model comparison.
-              </p>
+              <div>
+                <h3>Forecasting air quality from sensor measurements.</h3>
+                <p>I developed a PM10 forecasting workflow, from exploring sensor data and
+                  building features to comparing statistical, tree-based and neural models.</p>
+                <ul class="experience-contributions">
+                  <li>Prepared sensor measurements for time-series modeling.</li>
+                  <li>Compared Lasso, Random Forest, XGBoost and LSTM.</li>
+                  <li>Evaluated predictions with R², RMSE and MAE.</li>
+                </ul>
+                <p class="experience-tools">Python <span>·</span> XGBoost <span>·</span> Time series <span>·</span> Sensor data</p>
+              </div>
+              <div class="experience-deliverable">
+                <p class="section-kicker">PM10 · XGBoost</p>
+                <p class="experience-result"><strong>0.81</strong> R²</p>
+                <p>Reported model evaluation<br>RMSE 4.8 · MAE 3.2</p>
+              </div>
             </div>
           </details>
         </div>
@@ -147,11 +179,12 @@
       <section class="section contact" id="contact" aria-labelledby="contact-title">
         <div>
           <p class="section-kicker">Contact</p>
-          <h2 id="contact-title">Open to new opportunities.</h2>
+          <h2 id="contact-title">Let's talk data.</h2>
         </div>
         <div class="contact-panel">
           <p>
-            Reach out for collaborations, data science roles or technical discussions.
+            Have a project in mind, a question about my work, or a problem worth exploring?
+            Let's start a conversation.
           </p>
           <div class="contact-actions">
             <a class="button button-primary" href="mailto:ouahabizak1512@gmail.com">Email</a>
@@ -166,7 +199,7 @@
       <a href="#top">Back to top</a>
     </footer>
 
-    <script src="assets/js/projects.js?v=20260803-fraud-story-generic"></script>
-    <script src="assets/js/main.js?v=20260803-fraud-story-generic"></script>
+    <script src="assets/js/projects.js?v=20260909"></script>
+    <script src="assets/js/main.js?v=20260909"></script>
   </body>
 </html>

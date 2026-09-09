@@ -111,8 +111,9 @@ function projectTemplate(project) {
           <span>${project.category}</span>
         </div>
         <h3 id="${titleId}">${project.title}</h3>
+        <p class="project-subtitle">${project.subtitle}</p>
         <ul class="project-tech-list" aria-label="Technologies">
-          ${technologyItemsTemplate(project.stack)}
+          ${technologyItemsTemplate(project.cardStack || project.stack.slice(0, 3))}
         </ul>
       </div>
       ${action}
@@ -125,6 +126,8 @@ visualModal.className = "visual-modal";
 visualModal.setAttribute("role", "dialog");
 visualModal.setAttribute("aria-modal", "true");
 visualModal.setAttribute("aria-hidden", "true");
+visualModal.setAttribute("aria-labelledby", "visual-modal-title");
+visualModal.inert = true;
 visualModal.innerHTML = `
   <button class="visual-modal-backdrop" type="button" aria-label="Close visual preview"></button>
   <div class="visual-modal-panel" role="document">
@@ -140,6 +143,10 @@ document.body.append(visualModal);
 const caseStudyView = document.createElement("section");
 caseStudyView.className = "case-study-view";
 caseStudyView.setAttribute("aria-hidden", "true");
+caseStudyView.setAttribute("role", "dialog");
+caseStudyView.setAttribute("aria-modal", "true");
+caseStudyView.setAttribute("aria-labelledby", "case-study-title");
+caseStudyView.inert = true;
 caseStudyView.innerHTML = `
   <button class="case-study-close" type="button" aria-label="Back to projects">
     <span aria-hidden="true">←</span>
@@ -151,10 +158,13 @@ caseStudyView.innerHTML = `
       <div class="case-study-shade" aria-hidden="true"></div>
       <div class="case-study-heading">
         <p class="case-study-category"></p>
-        <h2 class="case-study-title"></h2>
+        <h2 class="case-study-title" id="case-study-title"></h2>
         <p class="case-study-subtitle"></p>
+        <a class="case-study-hero-code" target="_blank" rel="noreferrer">View code <span aria-hidden="true">↗</span></a>
       </div>
     </div>
+    <dl class="case-study-overview"></dl>
+    <nav class="case-study-navigation" aria-label="Project chapters"></nav>
     <div class="case-study-story">
       <div class="case-study-visual-column">
         <div class="case-study-progress" aria-hidden="true"><span></span></div>
@@ -190,7 +200,15 @@ const caseStudyCodeLink = caseStudyView.querySelector(".case-study-code-link");
 let activeCaseStudyButton = null;
 let caseStudyTransitionImage = null;
 let storyObserver = null;
+let transitionInProgress = false;
+let visualReturnFocus = null;
+const mobileStory = window.matchMedia("(max-width: 860px)");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const backgroundSurfaces = document.querySelectorAll("body > header, body > main, body > footer, .skip-link");
+
+function setBackgroundInert(inert) {
+  backgroundSurfaces.forEach((element) => { element.inert = inert; });
+}
 
 function methodVisualTemplate() {
   return `
@@ -320,7 +338,7 @@ function forecastResultsVisualTemplate(step) {
       <div class="forecast-result-verdict">
         <span>Operational reading</span>
         <strong>Short-horizon guidance</strong>
-        <small>Validate across seasons before using the forecast for automated rebalancing.</small>
+          <small>Station-level availability, one hour ahead, evaluated on later observations.</small>
       </div>
     </div>
   `;
@@ -1079,17 +1097,6 @@ function paperpalScreenVisualTemplate(step) {
     <div class="paperpal-screen" role="img" aria-label="${step.imageAlt || "PaperPal application interface"}">
       <div class="paperpal-screen-frame">
         <img src="${step.image}" alt="" aria-hidden="true" loading="eager" />
-        ${
-          step.modelOverlay
-            ? `
-              <div class="paperpal-model-overlay" aria-hidden="true">
-                <span>Summarization model</span>
-                <strong>BART-base</strong>
-                <small>Scientific reading briefs</small>
-              </div>
-            `
-            : ""
-        }
       </div>
     </div>
   `;
@@ -1156,6 +1163,7 @@ function storyVisualTemplate(step) {
   if (step.visualType === "forecastTimeline") return forecastTimelineVisualTemplate();
   if (step.visualType === "forecastResults") return forecastResultsVisualTemplate(step);
   if (step.visualType === "fraudTransaction") return fraudTransactionSimpleVisualTemplate();
+  if (step.visualType === "fraudTimeline") return fraudTimelineVisualTemplate();
   if (step.visualType === "fraudFeatures") return fraudFeaturesSimpleVisualTemplate();
   if (step.visualType === "fraudScore") return fraudScoreSimpleVisualTemplate();
   if (step.visualType === "fraudDecision") return fraudDecisionSimpleVisualTemplate();
@@ -1189,19 +1197,40 @@ function storyVisualTemplate(step) {
 }
 
 function setActiveStoryStep(index) {
-  const visuals = caseStudyVisualStage.querySelectorAll("[data-story-visual]");
+  const visuals = caseStudyView.querySelectorAll("[data-story-visual]");
   const chapters = caseStudyChapters.querySelectorAll("[data-story-step]");
   visuals.forEach((visual) => {
-    visual.classList.toggle("is-active", Number(visual.dataset.storyVisual) === index);
+    const active = Number(visual.dataset.storyVisual) === index;
+    visual.classList.toggle("is-active", active);
+    visual.inert = !mobileStory.matches && !active;
+    visual.setAttribute("aria-hidden", String(!mobileStory.matches && !active));
   });
   chapters.forEach((chapter) => {
     chapter.classList.toggle("is-active", Number(chapter.dataset.storyStep) === index);
   });
   caseStudyProgress.style.height = `${((index + 1) / Math.max(chapters.length, 1)) * 100}%`;
+  caseStudyView.querySelectorAll("[data-chapter]").forEach((button) => {
+    if (Number(button.dataset.chapter) === index) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
 }
+
+// Move, rather than duplicate, visuals so each mobile chapter owns its image.
+function arrangeStoryVisuals() {
+  caseStudyView.querySelectorAll("[data-story-visual]").forEach((figure) => {
+    const chapter = caseStudyChapters.querySelector(`[data-story-step="${figure.dataset.storyVisual}"]`);
+    (mobileStory.matches ? chapter : caseStudyVisualStage).append(figure);
+  });
+  const active = caseStudyChapters.querySelector(".is-active");
+  setActiveStoryStep(Number(active?.dataset.storyStep || 0));
+}
+
+mobileStory.addEventListener("change", arrangeStoryVisuals);
 
 function renderCaseStudyStory(project) {
   const story = project.story || [];
+  storyObserver?.disconnect();
+  caseStudyChapters.innerHTML = "";
   caseStudyVisualStage.innerHTML = story
     .map(
       (step, index) => `
@@ -1215,6 +1244,7 @@ function renderCaseStudyStory(project) {
           ${storyVisualTemplate(step)}
           ${step.brand ? `<span class="case-study-figure-brand">${step.brand}</span>` : ""}
           ${step.caption ? `<figcaption>${step.caption}</figcaption>` : ""}
+          ${step.image ? `<button type="button" class="story-enlarge" data-detail-image="${step.image}" data-detail-alt="${step.imageAlt || ""}" data-detail-title="${step.title}">View full image <span aria-hidden="true">↗</span></button>` : ""}
         </figure>
       `
     )
@@ -1223,7 +1253,7 @@ function renderCaseStudyStory(project) {
   caseStudyChapters.innerHTML = story
     .map(
       (step, index) => `
-        <article class="case-study-chapter${index === 0 ? " is-active" : ""}" data-story-step="${index}">
+        <article class="case-study-chapter${index === 0 ? " is-active" : ""}" data-story-step="${index}" id="chapter-${index}">
           <p class="case-study-step">${step.eyebrow}</p>
           <h3>${step.title}</h3>
           <p>${step.body}</p>
@@ -1239,8 +1269,13 @@ function renderCaseStudyStory(project) {
     )
     .join("");
 
+  caseStudyView.querySelector(".case-study-overview").innerHTML = (project.overview || [])
+    .map((item) => `<div><dt>${item.label}</dt><dd>${item.text}</dd></div>`).join("");
+  caseStudyView.querySelector(".case-study-navigation").innerHTML = `<div class="case-study-chapter-links">${story.map((step, index) =>
+    `<button type="button" data-chapter="${index}" aria-controls="chapter-${index}"><span>${String(index + 1).padStart(2, "0")}</span> ${step.eyebrow.split(" · ").slice(1).join(" · ") || step.eyebrow}</button>`
+  ).join("")}</div>`;
+  arrangeStoryVisuals();
   caseStudyProgress.style.height = `${100 / Math.max(story.length, 1)}%`;
-  storyObserver?.disconnect();
   storyObserver = new IntersectionObserver(
     (entries) => {
       const visibleEntry = entries
@@ -1266,10 +1301,12 @@ function setTransitionImageRect(element, rect) {
 }
 
 async function openCaseStudy(button) {
+  if (transitionInProgress || activeCaseStudyButton) return;
   const project = projects.find((item) => item.id === button.dataset.caseStudy);
   const sourceImage = button.closest(".project-card")?.querySelector(".project-image");
   if (!project || !sourceImage) return;
 
+  transitionInProgress = true;
   activeCaseStudyButton = button;
   const sourceRect = sourceImage.getBoundingClientRect();
 
@@ -1283,6 +1320,7 @@ async function openCaseStudy(button) {
   caseStudyView.querySelector(".case-study-subtitle").textContent =
     project.caseStudySubtitle || project.subtitle;
   caseStudyCodeLink.href = project.repo;
+  caseStudyView.querySelector(".case-study-hero-code").href = project.repo;
   renderCaseStudyStory(project);
   caseStudyView.querySelector(".case-study-stack").innerHTML = technologyItemsTemplate(
     project.stack
@@ -1290,6 +1328,9 @@ async function openCaseStudy(button) {
 
   caseStudyView.classList.add("is-preparing");
   caseStudyView.setAttribute("aria-hidden", "false");
+  caseStudyView.inert = false;
+  setBackgroundInert(true);
+  caseStudyClose.focus({ preventScroll: true });
   caseStudyScroll.scrollTop = 0;
   document.body.classList.add("modal-open");
 
@@ -1315,7 +1356,7 @@ async function openCaseStudy(button) {
       },
     ],
     {
-      duration: prefersReducedMotion.matches ? 1 : 680,
+      duration: prefersReducedMotion.matches ? 1 : 440,
       easing: "cubic-bezier(0.2, 0.72, 0.18, 1)",
       fill: "forwards",
     }
@@ -1325,16 +1366,19 @@ async function openCaseStudy(button) {
   caseStudyView.classList.add("is-settled");
   caseStudyTransitionImage.remove();
   caseStudyTransitionImage = null;
-  caseStudyClose.focus();
+  transitionInProgress = false;
+  caseStudyClose.focus({ preventScroll: true });
 }
 
 async function closeCaseStudy() {
+  if (transitionInProgress) return;
   if (!activeCaseStudyButton || !caseStudyView.classList.contains("is-preparing")) return;
 
   const sourceImage = activeCaseStudyButton
     .closest(".project-card")
     ?.querySelector(".project-image");
   if (!sourceImage) return;
+  transitionInProgress = true;
   const sourceRect = sourceImage.getBoundingClientRect();
   caseStudyScroll.scrollTop = 0;
   const targetRect = caseStudyHero.getBoundingClientRect();
@@ -1361,7 +1405,7 @@ async function closeCaseStudy() {
       },
     ],
     {
-      duration: prefersReducedMotion.matches ? 1 : 560,
+      duration: prefersReducedMotion.matches ? 1 : 340,
       easing: "cubic-bezier(0.2, 0.72, 0.18, 1)",
       fill: "forwards",
     }
@@ -1372,18 +1416,25 @@ async function closeCaseStudy() {
   caseStudyTransitionImage = null;
   caseStudyView.classList.remove("is-preparing");
   caseStudyView.setAttribute("aria-hidden", "true");
+  caseStudyView.inert = true;
   storyObserver?.disconnect();
   document.body.classList.remove("modal-open");
-  activeCaseStudyButton.focus();
+  setBackgroundInert(false);
+  activeCaseStudyButton.focus({ preventScroll: true });
   activeCaseStudyButton = null;
+  transitionInProgress = false;
 }
 
 function openVisualModal({ image, alt, title }) {
+  visualReturnFocus = document.activeElement;
   modalTitle.textContent = title;
   modalImage.src = image;
   modalImage.alt = alt;
   visualModal.classList.add("is-open");
   visualModal.setAttribute("aria-hidden", "false");
+  visualModal.inert = false;
+  caseStudyView.inert = true;
+  setBackgroundInert(true);
   document.body.classList.add("modal-open");
   visualModal.querySelector(".visual-modal-close").focus();
 }
@@ -1391,7 +1442,12 @@ function openVisualModal({ image, alt, title }) {
 function closeVisualModal() {
   visualModal.classList.remove("is-open");
   visualModal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
+  visualModal.inert = true;
+  const caseOpen = Boolean(activeCaseStudyButton);
+  document.body.classList.toggle("modal-open", caseOpen);
+  caseStudyView.inert = !caseOpen;
+  setBackgroundInert(caseOpen);
+  visualReturnFocus?.focus({ preventScroll: true });
   modalImage.removeAttribute("src");
 }
 
@@ -1402,6 +1458,8 @@ function renderProjects() {
       : projects.filter((project) => project.filterCategory === activeCategory);
 
   grid.innerHTML = visibleProjects.map(projectTemplate).join("");
+  document.querySelector("#project-status").textContent = `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"} shown`;
+  document.querySelector(".project-count").textContent = ` / ${String(projects.length).padStart(2, "0")}`;
   requestAnimationFrame(hydrateReveals);
 }
 
@@ -1412,8 +1470,7 @@ function renderFilters() {
         <button
           class="filter-tab${category === activeCategory ? " is-active" : ""}"
           type="button"
-          role="tab"
-          aria-selected="${category === activeCategory}"
+          aria-pressed="${category === activeCategory}"
           data-filter="${category}"
         >
           ${category}
@@ -1427,7 +1484,11 @@ filters.addEventListener("click", (event) => {
   const button = event.target.closest("[data-filter]");
   if (!button) return;
   activeCategory = button.dataset.filter;
-  renderFilters();
+  filters.querySelectorAll("[data-filter]").forEach((filter) => {
+    const active = filter.dataset.filter === activeCategory;
+    filter.classList.toggle("is-active", active);
+    filter.setAttribute("aria-pressed", String(active));
+  });
   renderProjects();
 });
 
@@ -1453,14 +1514,35 @@ modalCloseControls.forEach((control) => {
 
 caseStudyClose.addEventListener("click", closeCaseStudy);
 
+caseStudyView.addEventListener("click", (event) => {
+  const chapterButton = event.target.closest("[data-chapter]");
+  if (chapterButton) {
+    const chapter = caseStudyChapters.querySelector(`[data-story-step="${chapterButton.dataset.chapter}"]`);
+    chapter.scrollIntoView({ behavior: prefersReducedMotion.matches ? "instant" : "smooth", block: "start" });
+    return;
+  }
+  const imageButton = event.target.closest("[data-detail-image]");
+  if (imageButton) openVisualModal({ image: imageButton.dataset.detailImage, alt: imageButton.dataset.detailAlt, title: imageButton.dataset.detailTitle });
+});
+
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && visualModal.classList.contains("is-open")) {
+    closeVisualModal();
+    return;
+  }
   if (event.key === "Escape" && caseStudyView.classList.contains("is-preparing")) {
     closeCaseStudy();
     return;
   }
 
-  if (event.key === "Escape" && visualModal.classList.contains("is-open")) {
-    closeVisualModal();
+  if (event.key === "Tab") {
+    const dialog = visualModal.classList.contains("is-open") ? visualModal : activeCaseStudyButton ? caseStudyView : null;
+    if (!dialog) return;
+    const controls = [...dialog.querySelectorAll("a[href], button")].filter((el) => !el.closest("[inert]") && el.getClientRects().length);
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 });
 
