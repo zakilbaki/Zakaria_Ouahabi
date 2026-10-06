@@ -33,7 +33,8 @@ async function main() {
       await page.goto(url);
       await checkImages(page);
       await page.waitForTimeout(600);
-      assert.equal(await page.locator(".project-card").count(), 5);
+      const projectCount = await page.evaluate(() => window.portfolioProjects.length);
+      assert.equal(await page.locator(".project-card").count(), projectCount);
       if (width <= 860) {
         await page.locator(".nav-toggle").click();
         assert.equal(await page.locator(".nav-toggle").getAttribute("aria-expanded"), "true");
@@ -46,6 +47,7 @@ async function main() {
 
       const ids = await page.locator("[data-case-study]").evaluateAll((buttons) => buttons.map((b) => b.dataset.caseStudy));
       for (const id of ids) {
+        if (process.env.PORTFOLIO_PROJECT && id !== process.env.PORTFOLIO_PROJECT) continue;
         const trigger = page.locator(`[data-case-study="${id}"]`);
         await trigger.click();
         await page.waitForFunction(() => document.querySelector(".case-study-view").classList.contains("is-settled"));
@@ -88,12 +90,12 @@ async function main() {
       assert.equal(await page.locator(".project-card").count(), 1);
       assert.equal(await page.locator('[data-filter="Forecasting"]').evaluate((el) => el === document.activeElement), true);
       await page.locator('[data-filter="All"]').click();
-      assert.equal(await page.locator(".project-card").count(), 5);
+      assert.equal(await page.locator(".project-card").count(), projectCount);
       await page.locator(".professional-entry").nth(1).locator("summary").click();
       await page.locator(".professional-entry").nth(1).scrollIntoViewIfNeeded();
       await page.screenshot({ path: path.join(output, `${name}-experience.png`) });
       assert.deepEqual(errors, [], `${name}: browser errors`);
-      console.log(`${name}: five project stories, images, filters, dialogs and experience passed`);
+      console.log(`${name}: ${process.env.PORTFOLIO_PROJECT || "all project stories"}, images, filters, dialogs and experience passed`);
       await page.close();
     }
     const page = await browser.newPage({ reducedMotion: "reduce" });

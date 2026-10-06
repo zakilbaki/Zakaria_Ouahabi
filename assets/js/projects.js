@@ -1,5 +1,65 @@
 window.portfolioProjects = [
   {
+    id: "online-retail-retention",
+    title: "Online Retail Retention",
+    subtitle: "Identify customers approaching inactivity and prioritize retention decisions.",
+    category: "Customer analytics",
+    filterCategory: "Classification",
+    cardStack: ["Python", "Pandas", "Scikit-learn"],
+    stack: ["Python", "Pandas", "NumPy", "Scikit-learn", "Pytest"],
+    caseStudyDemo: true,
+    caseStudyCategory: "E-commerce · Customer retention",
+    caseStudyTitle: "Understanding who may stop buying",
+    caseStudySubtitle: "From transaction histories to interpretable churn-risk scores and retention priorities.",
+    image: "assets/visuals/retail-retention/monthly-customers.png",
+    imageAlt: "Notebook chart comparing newly observed and existing purchasing customers over time.",
+    repo: "https://github.com/zakilbaki/online-retail-retention",
+    overview: [
+      { label: "The question", text: "Which active customers are approaching 60 days without a purchase?" },
+      { label: "My contribution", text: "Transaction auditing, monthly customer snapshots and temporal model comparison." },
+      { label: "The output", text: "An interpretable risk model evaluated across two development periods." }
+    ],
+    story: [
+      {
+        eyebrow: "01 · The business question",
+        title: "A customer can leave without ever cancelling.",
+        body: "In online retail, there is no subscription cancellation to signal that a customer has left. Purchase histories provide the clues. Using UCI Online Retail II, I built a workflow to identify active customers approaching a defined inactivity boundary, with the goal of helping a retention team prioritize outreach.",
+        points: ["Understand the contribution of returning buyers", "Detect approaching inactivity from purchase history", "Connect risk scores to a measurable contact policy"],
+        image: "assets/visuals/retail-retention/monthly-customers.png",
+        imageAlt: "Monthly counts of newly observed buyers and existing purchasing customers, exported from the exploratory notebook."
+      },
+      {
+        eyebrow: "02 · Define the target",
+        title: "Make customer inactivity a precise prediction task.",
+        body: "I define churn as 60 consecutive days without a valid positive purchase. At each monthly snapshot, the model predicts whether an active customer will reach that boundary during the next 30 days. Cancellations and fully reversed invoices are handled explicitly, so an accounting reversal is not mistaken for renewed purchasing activity.",
+        image: "assets/visuals/retail-retention/churn-definition.png",
+        imageAlt: "Illustrative timeline: a monthly snapshot 40 days after a purchase predicts whether the customer reaches the 60-day inactivity boundary within the next 30 days."
+      },
+      {
+        eyebrow: "03 · Respect the timeline",
+        title: "Each prediction uses only the history available that day.",
+        body: "I audited the overlapping transaction sheets and constructed monthly customer snapshots from earlier observations. Walk-forward validation removes training examples whose outcome windows overlap the next validation period. September through November 2011 remains reserved for the final out-of-time test. This keeps model selection separate from the final evaluation.",
+        points: ["Purchase and cancellation history reconstructed at each snapshot", "Training labels must finish before validation starts", "Two development periods compared separately"],
+        image: "assets/visuals/retail-retention/customer-population.png",
+        imageAlt: "Observed active and already-churned customer populations at successive monthly reference dates."
+      },
+      {
+        eyebrow: "04 · Compare the models",
+        title: "Four interpretable features make a strong reference.",
+        body: "The reference logistic regression uses recency, purchase frequency, cancellation history and a 30-day risk-window indicator. I compared it with decision trees, Random Forest and SGD on the same temporal folds. It achieved 90.33% and 97.10% PR AUC across the two development periods. The retained Random Forest did not improve ranking in either period, while SGD was effectively tied.",
+        image: "assets/visuals/retail-retention/model-comparison.png",
+        imageAlt: "Development PR AUC: logistic regression 90.33% and 97.10%, retained Random Forest 89.56% and 97.00%, SGD 90.14% and 97.12%."
+      },
+      {
+        eyebrow: "05 · Retention decisions",
+        title: "The right alert depends on the cost of missing a customer.",
+        body: "I also compared illustrative false-positive and false-negative costs. Logistic regression had the lowest cost in both folds when those costs were equal; Random Forest became preferable when missing a churner cost at least five times an unnecessary intervention. That is a scenario analysis, not measured campaign ROI. The next step is to calibrate scores and combine risk with customer value before choosing an outreach policy.",
+        image: "assets/visuals/retail-retention/churn-over-time.png",
+        imageAlt: "The share of active customer snapshots reaching churn in the next 30 days varies across development reference dates."
+      }
+    ]
+  },
+  {
     id: "paperpal",
     title: "PaperPal",
     subtitle: "A scientific reading workspace, from PDF collection to answers with evidence.",

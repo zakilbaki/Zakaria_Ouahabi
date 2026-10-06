@@ -64,11 +64,22 @@ server, then run:
 PORTFOLIO_URL=http://127.0.0.1:5173 node scripts/verify-portfolio.cjs
 ```
 
-The check covers all five case studies at 1440, 820, 390 and 320 pixels, image
+The check covers every case study at 1440, 820, 390 and 320 pixels, image
 loading, filters, chapter activation, image enlargement, keyboard focus, reduced
 motion and expanded experience entries. Screenshots go to
 `/tmp/portfolio-verification`; override with `PORTFOLIO_SCREENSHOTS`.
 
+Set `PORTFOLIO_PROJECT=online-retail-retention` to focus story checks on that project.
+
 ## Source Notes
 
 Content is based on `assets/docs/Zakaria_Ouahabi_CV.pdf` and the public GitHub repositories under `zakilbaki`.
+
+Retail retention charts include unchanged saved outputs from notebook 04 and
+model comparison values reported in notebook 07. The churn timeline is illustrative.
+Scores describe development validation; the reserved final test is not evaluated.
+Regenerate these assets with Matplotlib installed:
+
+```bash
+python scripts/build-retention-visuals.py /path/to/online-retail-retention
+```
