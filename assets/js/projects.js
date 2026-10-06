@@ -11,8 +11,8 @@ window.portfolioProjects = [
     caseStudyCategory: "E-commerce · Customer retention",
     caseStudyTitle: "Understanding who may stop buying",
     caseStudySubtitle: "From transaction histories to interpretable churn-risk scores and retention priorities.",
-    image: "assets/visuals/retail-retention/monthly-customers.png",
-    imageAlt: "Notebook chart comparing newly observed and existing purchasing customers over time.",
+    image: "assets/visuals/retail-retention/customer-retention-cover.png",
+    imageAlt: "Customer carrying a shopping bag drawn back from an exit by a magnet, illustrating customer retention.",
     repo: "https://github.com/zakilbaki/online-retail-retention",
     overview: [
       { label: "The question", text: "Which active customers are approaching 60 days without a purchase?" },
