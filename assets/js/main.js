@@ -270,43 +270,20 @@ function resultsVisualTemplate(step) {
 }
 
 function forecastTimelineVisualTemplate() {
-  return `
-    <div
-      class="forecast-timeline"
-      role="img"
-      aria-label="Chronological model validation using training data from January 1 to March 11, validation data from March 11 to March 13 and test data from March 13 to March 16"
-    >
-      <div class="forecast-timeline-heading">
-        <p>Chronological split</p>
-        <strong>Past first. Future last.</strong>
-      </div>
-      <div class="forecast-split" aria-hidden="true">
-        <div class="forecast-split-segment forecast-split-segment--train">
-          <span>Train</span>
-          <small>Jan 01 → Mar 11</small>
-        </div>
-        <div class="forecast-split-segment forecast-split-segment--validation">
-          <span>Validate</span>
-          <small>Mar 11 → 13</small>
-        </div>
-        <div class="forecast-split-segment forecast-split-segment--test">
-          <span>Test</span>
-          <small>Mar 13 → 16</small>
-        </div>
-      </div>
-      <div class="forecast-memory">
-        <p>Per-station memory</p>
-        <div aria-hidden="true">
-          <span>t−3</span>
-          <span>t−2</span>
-          <span>t−1</span>
-          <span>Now</span>
-          <strong>+1h target</strong>
-        </div>
-      </div>
-      <p class="forecast-timeline-note">Lag and delta features are built before the future target is revealed.</p>
-    </div>
-  `;
+  return `<div class="vt-diagram" role="group" aria-label="Chronological validation and one-hour forecasting">
+    <header class="vt-heading"><span class="vt-eyebrow">VÉLIB / MODEL VALIDATION</span><h4>Learn from the past.<br>Evaluate on the future.</h4><p>Chronological splits keep the test period unseen.</p></header>
+    <section class="vt-panel"><header><span class="vt-number">01</span><h5>A chronological split</h5></header>
+      <ol class="vt-split">
+        <li class="vt-train"><span>LEARN</span><strong>Train</strong><time>Jan 01 → Mar 11</time><small>Fit the model</small></li>
+        <li class="vt-validate"><span>SELECT</span><strong>Validate</strong><time>Mar 11 → Mar 13</time><small>Compare models</small></li>
+        <li class="vt-test"><span>EVALUATE</span><strong>Test</strong><time>Mar 13 → Mar 16</time><small>Measure future error</small></li>
+      </ol><p class="vt-scale">Earlier → Later <span>Schematic · not to scale</span></p>
+    </section>
+    <section class="vt-panel"><header><span class="vt-number">02</span><h5>One station. One-hour horizon.</h5></header>
+      <div class="vt-memory"><div class="vt-observed"><span class="vt-label">AVAILABLE AT PREDICTION TIME</span><ol><li>t−3h</li><li>t−2h</li><li>t−1h</li><li class="vt-now">Now</li></ol><p>Three hourly lags + recent changes</p></div><span class="vt-arrow" aria-hidden="true">→</span><div class="vt-target"><span>PREDICT</span><strong>+1h</strong><small>Bike availability</small></div></div>
+    </section>
+    <footer class="vt-note"><span aria-hidden="true">✓</span><p><strong>Past-only features.</strong> Future observations are never used to construct the inputs.</p></footer>
+  </div>`;
 }
 
 function forecastResultsVisualTemplate(step) {

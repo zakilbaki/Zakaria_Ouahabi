@@ -211,7 +211,9 @@ window.portfolioProjects = [
         title: "The future never enters the training window.",
         body:
           "I split by time rather than shuffling station records. Three hourly lags and recent changes describe each station's short-term direction. Testing on later dates checks the same question the service faces: can past observations predict the next hour?",
-        visualType: "forecastTimeline"
+        visualType: "forecastTimeline",
+        image: "assets/visuals/velib-analysis/chronological-validation.svg",
+        imageAlt: "Chronological split: train January 1 to March 11, validate March 11 to 13, test March 13 to 16. Each station uses three hourly lags and current observations to predict bike availability one hour ahead. Period widths are schematic."
       },
       {
         eyebrow: "04 · From model to service",

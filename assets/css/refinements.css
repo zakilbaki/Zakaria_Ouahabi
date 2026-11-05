@@ -442,3 +442,61 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 650; }
   .pp-flow .pp-node:nth-child(3):not(:last-child)::after { content: '↓'; position: absolute; right: 50%; top: auto; bottom: -.65rem; transform: translateX(50%); font-size: .6rem; color: #8a96a7; }
   .pp-flow .pp-node:nth-child(n+4):not(:last-child)::after { content: '←'; right: auto; left: -.75rem; }
 }
+
+/* Chronological validation: shared visual language with the PaperPal diagram. */
+.vt-diagram { align-self: center; padding: 1.25rem; background: #f6f7f9; border: 1px solid #e0e5eb; border-radius: 20px; color: #243145; display: grid; gap: 1.15rem; min-width: 0; }
+.vt-eyebrow { color: #426b93; font-size: .6rem; font-weight: 650; letter-spacing: .08em; }
+.vt-heading h4 { margin: .7rem 0; font-size: clamp(1.35rem,2.4vw,2rem); letter-spacing: -.035em; line-height: 1.15; font-weight: 650; }
+.vt-heading p { margin: 0; font-size: .8rem; line-height: 1.5; color: #66758a; }
+.vt-panel { background: #fff; border-radius: 14px; padding: 1rem; min-width: 0; }
+.vt-panel header { display: flex; gap: .65rem; align-items: center; margin-bottom: .9rem; }
+.vt-number { border-radius: 8px; background: #edf2f7; color: #526981; padding: .4rem; font-size: .65rem; font-weight: 600; }
+.vt-panel h5 { margin: 0; font-size: .9rem; font-weight: 650; letter-spacing: -.015em; }
+.vt-split { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .6rem; padding: 0; margin: 0; list-style: none; }
+.vt-split li { display: flex; flex-direction: column; border: 1px solid; border-radius: 10px; padding: .75rem .6rem; gap: .5rem; }
+.vt-split li > span { font-size: .55rem; letter-spacing: .06em; font-weight: 600; }
+.vt-split strong { font-size: 1.1rem; color: #243145; font-weight: 600; }
+.vt-split time { font-size: .65rem; color: #34455b; line-height: 1.4; }
+.vt-split small { font-size: .6rem; line-height: 1.4; }
+.vt-split .vt-train { background: #edf5fa; border-color: #cbdde9; color: #386c8c; }
+.vt-split .vt-validate { background: #f1edfa; border-color: #d9ceed; color: #7859a3; }
+.vt-split .vt-test { background: #edf6f1; border-color: #cce3d6; color: #3c7659; }
+.vt-scale { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .35rem; color: #66758a; font-size: .55rem; margin: .75rem 0 0; }
+.vt-memory { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(5rem,.4fr); gap: .65rem; align-items: center; }
+.vt-label { display: block; font-size: .5rem; letter-spacing: .04em; color: #66758a; font-weight: 600; }
+.vt-observed ol { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .3rem; list-style: none; padding: 0; margin: .65rem 0; }
+.vt-observed li { text-align: center; border: 1px solid #dbe1e8; border-radius: 7px; background: #f6f7f9; padding: .65rem .1rem; font-size: .75rem; }
+.vt-observed .vt-now { background: #edf5fa; font-weight: 600; }
+.vt-observed p { margin: 0; font-size: .55rem; line-height: 1.4; color: #66758a; }
+.vt-arrow { color: #8a96a7; }
+.vt-target { padding: .7rem; border: 1px solid #cce3d6; border-radius: 10px; background: #edf6f1; display: flex; flex-direction: column; gap: .4rem; color: #3c7659; }
+.vt-target > span { font-size: .55rem; letter-spacing: .05em; font-weight: 600; }
+.vt-target strong { font-size: 1.8rem; font-weight: 600; color: #243145; }
+.vt-target small { font-size: .6rem; }
+.vt-note { display: flex; gap: .6rem; align-items: flex-start; color: #66758a; font-size: .65rem; line-height: 1.5; }
+.vt-note > span { color: #3c7659; }
+.vt-note p { margin: 0; }
+.vt-note strong { color: #34455b; font-weight: 600; }
+@media (min-width: 861px) { .case-study-figure > .vt-diagram { max-height: 100%; min-height: 0; overflow-y: auto; } }
+@media (max-width: 560px) {
+  .vt-diagram { padding: 1rem; }
+  .vt-heading h4 { font-size: 1.65rem; }
+  .vt-split { grid-template-columns: 1fr; }
+  .vt-split li { padding: .85rem; gap: .4rem; }
+  .vt-split time, .vt-split small { font-size: .8rem; }
+  .vt-split li > span, .vt-eyebrow, .vt-scale { font-size: .65rem; }
+  .vt-memory { grid-template-columns: 1fr; gap: .8rem; }
+  .vt-label, .vt-observed p, .vt-target small, .vt-note { font-size: .7rem; }
+  .vt-observed li { font-size: .85rem; }
+  .vt-arrow { text-align: center; transform: rotate(90deg); }
+  .vt-target { text-align: center; }
+}
+@media (min-width: 861px) {
+  .vt-diagram { padding: .9rem; gap: .65rem; }
+  .vt-heading h4 { font-size: 1.5rem; margin: .5rem 0; }
+  .vt-panel { padding: .75rem; }
+  .vt-panel header { margin-bottom: .6rem; }
+  .vt-split li { padding: .6rem; gap: .35rem; }
+  .vt-observed li { padding-block: .45rem; }
+  .vt-target { padding: .6rem; gap: .25rem; }
+}
