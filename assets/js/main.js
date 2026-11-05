@@ -198,9 +198,9 @@ const caseStudyChapters = caseStudyView.querySelector(".case-study-chapters");
 const caseStudyProgress = caseStudyView.querySelector(".case-study-progress span");
 const caseStudyCodeLink = caseStudyView.querySelector(".case-study-code-link");
 let activeCaseStudyButton = null;
-let caseStudyTransitionImage = null;
+let caseStudyAnimation = null;
+let caseStudyTransitionId = 0;
 let storyObserver = null;
-let transitionInProgress = false;
 let visualReturnFocus = null;
 const mobileStory = window.matchMedia("(max-width: 860px)");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -1291,138 +1291,61 @@ function renderCaseStudyStory(project) {
   });
 }
 
-function setTransitionImageRect(element, rect) {
-  Object.assign(element.style, {
-    top: `${rect.top}px`,
-    left: `${rect.left}px`,
-    width: `${rect.width}px`,
-    height: `${rect.height}px`,
-  });
+// Short, reversible fades preserve context without moving a full-screen surface.
+// Read the rendered opacity before cancelling so an early Escape never jumps.
+async function fadeCaseStudy(target) {
+  const id = ++caseStudyTransitionId;
+  const current = getComputedStyle(caseStudyView).opacity;
+  caseStudyAnimation?.cancel();
+  caseStudyAnimation = caseStudyView.animate(
+    [{ opacity: current }, { opacity: target }],
+    { duration: prefersReducedMotion.matches ? 100 : 220, easing: "ease-out", fill: "both" }
+  );
+  try { await caseStudyAnimation.finished; } catch { return false; }
+  return id === caseStudyTransitionId;
 }
 
-async function openCaseStudy(button) {
-  if (transitionInProgress || activeCaseStudyButton) return;
+function openCaseStudy(button) {
+  if (activeCaseStudyButton) return;
   const project = projects.find((item) => item.id === button.dataset.caseStudy);
-  const sourceImage = button.closest(".project-card")?.querySelector(".project-image");
-  if (!project || !sourceImage) return;
-
-  transitionInProgress = true;
+  if (!project) return;
   activeCaseStudyButton = button;
-  const sourceRect = sourceImage.getBoundingClientRect();
-
   caseStudyView.dataset.project = project.id;
   caseStudyImage.src = project.image;
   caseStudyImage.alt = project.imageAlt || "";
-  caseStudyView.querySelector(".case-study-category").textContent =
-    project.caseStudyCategory || project.category;
-  caseStudyView.querySelector(".case-study-title").textContent =
-    project.caseStudyTitle || project.title;
-  caseStudyView.querySelector(".case-study-subtitle").textContent =
-    project.caseStudySubtitle || project.subtitle;
+  caseStudyView.querySelector(".case-study-category").textContent = project.caseStudyCategory || project.category;
+  caseStudyView.querySelector(".case-study-title").textContent = project.caseStudyTitle || project.title;
+  caseStudyView.querySelector(".case-study-subtitle").textContent = project.caseStudySubtitle || project.subtitle;
   caseStudyCodeLink.href = project.repo;
   caseStudyView.querySelector(".case-study-hero-code").href = project.repo;
   renderCaseStudyStory(project);
-  caseStudyView.querySelector(".case-study-stack").innerHTML = technologyItemsTemplate(
-    project.stack
-  );
-
-  caseStudyView.classList.add("is-preparing");
+  caseStudyView.querySelector(".case-study-stack").innerHTML = technologyItemsTemplate(project.stack);
+  caseStudyView.style.opacity = "0";
+  caseStudyView.classList.add("is-preparing", "is-settled");
   caseStudyView.setAttribute("aria-hidden", "false");
   caseStudyView.inert = false;
   setBackgroundInert(true);
-  caseStudyClose.focus({ preventScroll: true });
   caseStudyScroll.scrollTop = 0;
   document.body.classList.add("modal-open");
-
-  const targetRect = caseStudyHero.getBoundingClientRect();
-  caseStudyTransitionImage = sourceImage.cloneNode();
-  caseStudyTransitionImage.className = "case-transition-image";
-  setTransitionImageRect(caseStudyTransitionImage, sourceRect);
-  document.body.append(caseStudyTransitionImage);
-
-  const animation = caseStudyTransitionImage.animate(
-    [
-      {
-        top: `${sourceRect.top}px`,
-        left: `${sourceRect.left}px`,
-        width: `${sourceRect.width}px`,
-        height: `${sourceRect.height}px`,
-      },
-      {
-        top: `${targetRect.top}px`,
-        left: `${targetRect.left}px`,
-        width: `${targetRect.width}px`,
-        height: `${targetRect.height}px`,
-      },
-    ],
-    {
-      duration: prefersReducedMotion.matches ? 1 : 440,
-      easing: "cubic-bezier(0.2, 0.72, 0.18, 1)",
-      fill: "forwards",
-    }
-  );
-
-  await animation.finished;
-  caseStudyView.classList.add("is-settled");
-  caseStudyTransitionImage.remove();
-  caseStudyTransitionImage = null;
-  transitionInProgress = false;
   caseStudyClose.focus({ preventScroll: true });
+  void fadeCaseStudy(1);
 }
 
 async function closeCaseStudy() {
-  if (transitionInProgress) return;
-  if (!activeCaseStudyButton || !caseStudyView.classList.contains("is-preparing")) return;
-
-  const sourceImage = activeCaseStudyButton
-    .closest(".project-card")
-    ?.querySelector(".project-image");
-  if (!sourceImage) return;
-  transitionInProgress = true;
-  const sourceRect = sourceImage.getBoundingClientRect();
-  caseStudyScroll.scrollTop = 0;
-  const targetRect = caseStudyHero.getBoundingClientRect();
-
-  caseStudyView.classList.remove("is-settled");
-  caseStudyTransitionImage = caseStudyImage.cloneNode();
-  caseStudyTransitionImage.className = "case-transition-image";
-  setTransitionImageRect(caseStudyTransitionImage, targetRect);
-  document.body.append(caseStudyTransitionImage);
-
-  const animation = caseStudyTransitionImage.animate(
-    [
-      {
-        top: `${targetRect.top}px`,
-        left: `${targetRect.left}px`,
-        width: `${targetRect.width}px`,
-        height: `${targetRect.height}px`,
-      },
-      {
-        top: `${sourceRect.top}px`,
-        left: `${sourceRect.left}px`,
-        width: `${sourceRect.width}px`,
-        height: `${sourceRect.height}px`,
-      },
-    ],
-    {
-      duration: prefersReducedMotion.matches ? 1 : 340,
-      easing: "cubic-bezier(0.2, 0.72, 0.18, 1)",
-      fill: "forwards",
-    }
-  );
-
-  await animation.finished;
-  caseStudyTransitionImage.remove();
-  caseStudyTransitionImage = null;
-  caseStudyView.classList.remove("is-preparing");
+  if (!activeCaseStudyButton) return;
+  if (!await fadeCaseStudy(0)) return;
+  const returnFocus = activeCaseStudyButton;
+  caseStudyView.classList.remove("is-preparing", "is-settled");
   caseStudyView.setAttribute("aria-hidden", "true");
   caseStudyView.inert = true;
+  caseStudyAnimation?.cancel();
+  caseStudyAnimation = null;
+  caseStudyView.style.removeProperty("opacity");
   storyObserver?.disconnect();
   document.body.classList.remove("modal-open");
   setBackgroundInert(false);
-  activeCaseStudyButton.focus({ preventScroll: true });
   activeCaseStudyButton = null;
-  transitionInProgress = false;
+  returnFocus.focus({ preventScroll: true });
 }
 
 function openVisualModal({ image, alt, title }) {
@@ -1596,3 +1519,18 @@ revealObserver = new IntersectionObserver(
 renderFilters();
 renderProjects();
 hydrateReveals();
+
+// Dismiss the mobile navigation from the keyboard or by clicking outside it.
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && siteNav.classList.contains("is-open")) {
+    navToggle.setAttribute("aria-expanded", "false");
+    siteNav.classList.remove("is-open");
+    navToggle.focus();
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!header.contains(event.target)) {
+    navToggle.setAttribute("aria-expanded", "false");
+    siteNav.classList.remove("is-open");
+  }
+});
