@@ -388,3 +388,57 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 650; }
 /* Keep the existing signature legible on the light navigation material. */
 .brand-mark { filter: brightness(.28); }
 .hero-actions .button { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; }
+
+/* PaperPal architecture: live text on small screens; SVG for full-size reading. */
+.pp-architecture { color: #243145; background: #f6f7f9; border: 1px solid #e0e5eb; border-radius: 20px; padding: 1.15rem; display: grid; gap: 1rem; width: 100%; height: auto; align-self: center; }
+.pp-eyebrow { display: block; color: #426b93; font-size: .55rem; letter-spacing: .1em; font-weight: 650; }
+.pp-architecture-heading h4 { margin: .55rem 0; font-size: 1.35rem; line-height: 1.12; letter-spacing: -.035em; font-weight: 650; }
+.pp-architecture-heading p { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: 0; color: #66758a; font-size: .6rem; }
+.pp-status { color: #6d529e; background: #eee9fb; padding: .25rem .5rem; border-radius: 999px; font-size: .55rem; }
+.pp-lane { background: white; border-radius: 13px; padding: .75rem; }
+.pp-lane > header { display: flex; gap: .6rem; align-items: flex-start; margin-bottom: .65rem; }
+.pp-number { flex-shrink: 0; background: #edf2f7; color: #526981; font-size: .6rem; font-weight: 600; border-radius: 7px; padding: .4rem; }
+.pp-lane h5 { font-size: .8rem; font-weight: 650; margin: 0 0 .2rem; letter-spacing: -.015em; }
+.pp-lane header p { font-size: .6rem; line-height: 1.4; margin: 0; color: #66758a; }
+.pp-flow { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem .8rem; }
+.pp-node { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: .25rem; min-height: 3.2rem; border: 1px solid #dbe1e8; border-radius: 8px; padding: .45rem; background: #fff; }
+.pp-node span { font-size: .48rem; line-height: 1.3; color: #66758a; font-weight: 550; }
+.pp-node strong { font-size: .66rem; line-height: 1.25; font-weight: 600; overflow-wrap: anywhere; }
+.pp-node:not(:nth-child(3n)):not(:last-child)::after { content: '→'; position: absolute; right: -.75rem; top: 50%; transform: translateY(-50%); font-size: .65rem; color: #8a96a7; }
+.pp-node--data { background: #edf5fa; border-color: #cbdde9; }
+.pp-node--data span { color: #386c8c; }
+.pp-node--ai { background: #f1edfa; border-color: #d9ceed; border-style: dashed; }
+.pp-node--ai span { color: #7859a3; }
+.pp-node--ui { background: #edf6f1; border-color: #cce3d6; }
+.pp-node--ui span { color: #3c7659; }
+.pp-foundation { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .4rem; border-top: 1px solid #dbe1e8; padding-top: .7rem; color: #66758a; font-size: .55rem; line-height: 1.5; }
+.pp-foundation strong { color: #34455b; font-weight: 600; }
+@media (max-width: 860px) {
+  .pp-architecture { padding: 1.25rem; gap: 1rem; }
+  .pp-architecture-heading h4 { font-size: 1.8rem; }
+  .pp-eyebrow, .pp-status, .pp-architecture-heading p, .pp-lane header p, .pp-foundation { font-size: .75rem; }
+  .pp-lane { padding: 1rem; }
+  .pp-lane h5 { font-size: 1rem; }
+  .pp-number { font-size: .75rem; }
+  .pp-node { padding: .7rem; min-height: 4rem; }
+  .pp-node span { font-size: .65rem; }
+  .pp-node strong { font-size: .85rem; }
+}
+@media (max-width: 560px) {
+  .pp-architecture { padding: 1rem; }
+  .pp-flow { grid-template-columns: 1fr; gap: 1rem; }
+  .pp-node { min-height: 3.6rem; padding: .65rem .8rem; }
+  .pp-node strong { font-size: .95rem; }
+  .pp-flow .pp-node:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -.95rem; transform: translateX(50%); font-size: .8rem; color: #8a96a7; position: absolute; }
+  .pp-foundation { flex-direction: column; }
+}
+@media (min-width: 861px) {
+  .case-study-figure > .pp-architecture { min-height: 0; max-height: 100%; overflow-y: auto; align-self: stretch; gap: .7rem; padding: .9rem; }
+}
+@media (min-width: 561px) {
+  .pp-node:nth-child(4) { grid-column: 3; grid-row: 2; }
+  .pp-node:nth-child(5) { grid-column: 2; grid-row: 2; }
+  .pp-node:nth-child(6) { grid-column: 1; grid-row: 2; }
+  .pp-flow .pp-node:nth-child(3):not(:last-child)::after { content: '↓'; position: absolute; right: 50%; top: auto; bottom: -.65rem; transform: translateX(50%); font-size: .6rem; color: #8a96a7; }
+  .pp-flow .pp-node:nth-child(n+4):not(:last-child)::after { content: '←'; right: auto; left: -.75rem; }
+}

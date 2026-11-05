@@ -1103,58 +1103,8 @@ function paperpalScreenVisualTemplate(step) {
 }
 
 function paperpalArchitectureVisualTemplate() {
-  return `
-    <div
-      class="paperpal-future"
-      role="img"
-      aria-label="PaperPal future architecture with document preparation, grounded question answering through OpenAI API and a BART-base summary path"
-    >
-      <p>PaperPal future architecture</p>
-      <section class="paperpal-future-lane paperpal-future-lane--documents">
-        <h4><span>01</span> Document preparation</h4>
-        <div class="paperpal-future-row">
-          <div class="paperpal-future-node"><span>Input</span><strong>PDF upload</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node"><span>Parse</span><strong>Text extraction</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node paperpal-future-node--data"><span>Store</span><strong>MongoDB</strong></div>
-        </div>
-        <div class="paperpal-future-turn"><span>↓</span> Prepare for retrieval</div>
-        <div class="paperpal-future-row">
-          <div class="paperpal-future-node"><span>Chunk</span><strong>Page-aware chunks</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node"><span>Embed</span><strong>MiniLM</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node paperpal-future-node--data"><span>Index</span><strong>ChromaDB</strong></div>
-        </div>
-      </section>
-      <section class="paperpal-future-lane paperpal-future-lane--answers">
-        <h4><span>02</span> Question answering</h4>
-        <div class="paperpal-future-row">
-          <div class="paperpal-future-node"><span>Ask</span><strong>User question</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node"><span>ChromaDB context</span><strong>Evidence retrieval</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node paperpal-future-node--openai"><span>Generate</span><strong>OpenAI API</strong></div>
-        </div>
-        <div class="paperpal-future-row paperpal-future-row--output">
-          <div class="paperpal-future-node"><span>Respond</span><strong>Grounded answer</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node paperpal-future-node--ui"><span>Deliver</span><strong>Streamlit UI</strong></div>
-        </div>
-      </section>
-      <section class="paperpal-future-lane paperpal-future-lane--summary">
-        <h4><span>03</span> Summary path</h4>
-        <div class="paperpal-future-row">
-          <div class="paperpal-future-node paperpal-future-node--data"><span>Source</span><strong>MongoDB</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node"><span>Summarize</span><strong>BART-base</strong></div>
-          <b aria-hidden="true">→</b>
-          <div class="paperpal-future-node paperpal-future-node--ui"><span>Deliver</span><strong>Streamlit UI</strong></div>
-        </div>
-      </section>
-    </div>
-  `;
+  return `<div class="pp-architecture" role="group" aria-label="PaperPal proposed architecture">
+      <header class="pp-architecture-heading"><span class="pp-eyebrow">PAPERPAL / SYSTEM DESIGN</span><h4>One foundation.<br>Three reading workflows.</h4><p>Architecture direction <span class="pp-status">OpenAI extension planned</span></p></header><section class="pp-lane"><header><span class="pp-number">01</span><div><h5>Document preparation</h5><p>From scientific PDFs to searchable evidence.</p></div></header><ol class="pp-flow"><li class="pp-node pp-node--plain"><span>Input</span><strong>PDF upload</strong></li><li class="pp-node pp-node--plain"><span>Parse</span><strong>Text extraction</strong></li><li class="pp-node pp-node--data"><span>Document store</span><strong>MongoDB</strong></li><li class="pp-node pp-node--plain"><span>Chunk</span><strong>Page-aware chunks</strong></li><li class="pp-node pp-node--plain"><span>Embed</span><strong>MiniLM</strong></li><li class="pp-node pp-node--data"><span>Vector index</span><strong>ChromaDB</strong></li></ol></section><section class="pp-lane"><header><span class="pp-number">02</span><div><h5>Question answering</h5><p>Retrieve context. Generate an answer grounded in sources.</p></div></header><ol class="pp-flow"><li class="pp-node pp-node--plain"><span>Ask</span><strong>User question</strong></li><li class="pp-node pp-node--data"><span>ChromaDB context</span><strong>Evidence retrieval</strong></li><li class="pp-node pp-node--ai"><span>Planned extension</span><strong>OpenAI API</strong></li><li class="pp-node pp-node--plain"><span>Respond</span><strong>Grounded answer</strong></li><li class="pp-node pp-node--ui"><span>Deliver</span><strong>Streamlit UI</strong></li></ol></section><section class="pp-lane"><header><span class="pp-number">03</span><div><h5>Summarization</h5><p>A dedicated path for a first reading of each paper.</p></div></header><ol class="pp-flow"><li class="pp-node pp-node--data"><span>Source</span><strong>MongoDB</strong></li><li class="pp-node pp-node--plain"><span>Summarize</span><strong>BART-base</strong></li><li class="pp-node pp-node--ui"><span>Deliver</span><strong>Streamlit UI</strong></li></ol></section><footer class="pp-foundation"><span><strong>FastAPI</strong> · Service orchestration</span><span><strong>Docker</strong> · Application packaging</span></footer></div>`;
 }
 
 function storyVisualTemplate(step) {

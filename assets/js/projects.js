@@ -138,7 +138,9 @@ window.portfolioProjects = [
         title: "One document foundation, several reading tools.",
         body:
           "The architecture keeps storage, retrieval and generation separate. FastAPI coordinates the services behind Streamlit, with Docker packaging the application. The OpenAI API extension shown here will use retrieved passages as context for answers, alongside the BART-base summarization path.",
-        visualType: "paperpalArchitecture"
+        visualType: "paperpalArchitecture",
+        image: "assets/visuals/paperpal/paperpal-architecture.svg",
+        imageAlt: "Proposed PaperPal architecture: document ingestion and indexing, grounded answers with a planned OpenAI extension, and BART-base summarization. FastAPI orchestrates services packaged with Docker."
       }
     ],
     question:
