@@ -1,0 +1,97 @@
+/* Scoped editorial case study; all other projects retain their existing layout. */
+.case-study-view[data-project="fraud-investigation"] { --ink:#f2f1ec; --muted:#aab8bc; --line:#304047; --forest:#d6e4df; --coral:#e98777; background:#101b20; color:var(--ink); }
+.case-study-view[data-project="fraud-investigation"] .case-study-scroll { background:#101b20; }
+.case-study-view[data-project="fraud-investigation"] .case-study-hero { min-height:80svh; }
+.case-study-view[data-project="fraud-investigation"] .case-study-shade { background:linear-gradient(180deg,rgba(9,17,21,.08),rgba(9,17,21,.25) 35%,#101b20 100%); }
+.case-study-view[data-project="fraud-investigation"] .case-study-title { max-width:14ch; font-size:clamp(3rem,6.5vw,6.2rem); line-height:1.02; letter-spacing:-.055em; }
+.case-study-view[data-project="fraud-investigation"] .case-study-overview { padding-block:2.5rem; }
+.case-study-view[data-project="fraud-investigation"] .case-study-navigation { background:#101b2ef5; border-color:#304047; }
+.case-study-view[data-project="fraud-investigation"] .case-study-navigation button { font-size:.875rem; }
+.case-study-view[data-project="fraud-investigation"] .case-study-navigation button[aria-current] { border-color:#e98777; }
+.case-study-view[data-project="fraud-investigation"] .case-study-story { grid-template-columns:minmax(0,1.35fr) minmax(0,.75fr); gap:clamp(2rem,5vw,5rem); }
+.case-study-view[data-project="fraud-investigation"] .case-study-chapter { min-height:90svh; display:flex; flex-direction:column; justify-content:center; }
+.case-study-view[data-project="fraud-investigation"] .case-study-step { color:#e98777; font-size:.875rem; }
+.case-study-view[data-project="fraud-investigation"] .case-study-chapter h3 { font-size:clamp(2rem,3vw,3.2rem); letter-spacing:-.045em; line-height:1.12; }
+.case-study-view[data-project="fraud-investigation"] .case-study-chapter > p:not(.case-study-step) { line-height:1.7; font-size:1.0625rem; }
+.case-study-view[data-project="fraud-investigation"] .case-study-figure { grid-template-rows:minmax(0,1fr); }
+.fi-desk { background:#17262d; color:#eef1ee; border:1px solid #35464d; border-radius:16px; display:flex; flex-direction:column; min-width:0; max-height:100%; overflow:auto; box-shadow:0 24px 60px #0003; font-size:1rem; }
+.fi-toolbar { display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:1rem 1.5rem; border-bottom:1px solid #35464d; color:#b6c8ca; font:500 .75rem/1.5 ui-monospace,monospace; letter-spacing:.06em; }
+.fi-scene { padding:clamp(1.25rem,2.7vw,2.5rem); flex:1; }
+.fi-desk h4 { color:inherit; font-size:clamp(1.6rem,2.6vw,2.5rem); line-height:1.12; letter-spacing:-.04em; font-weight:550; margin:.6rem 0 1.8rem; }
+.fi-micro { font:.75rem/1.5 ui-monospace,monospace; letter-spacing:.09em; color:#a9c0c4; margin:0; }
+.fi-tag { display:inline-block; padding:.35rem .7rem; background:#663e3b66; border:1px solid #a65c51; color:#ffb4a4; font-size:.875rem; border-radius:6px; margin-bottom:2rem; }
+.fi-amount { font-size:clamp(3rem,6vw,5.5rem); font-weight:550; letter-spacing:-.065em; line-height:1.1; margin-top:.7rem; font-variant-numeric:tabular-nums; }
+.fi-amount > span { color:#8ca0a8; font-size:.55em; }
+.fi-unit { color:#aab8bc; font-size:.875rem; margin:.5rem 0 2.5rem; }
+.fi-transfer { display:flex; align-items:center; gap:1rem; padding-block:1rem; }
+.fi-transfer div:not(.fi-wire) { display:grid; gap:.4rem; }
+.fi-transfer span { font:.75rem ui-monospace,monospace; color:#aab8bc; }
+.fi-transfer strong { font-size:1.1rem; font-weight:500; white-space:nowrap; }
+.fi-wire { flex:1; height:1px; background:linear-gradient(90deg,#536b73,#ec9985); position:relative; }
+.fi-wire:after { content:''; position:absolute; width:7px; height:7px; background:#ec9985; border-radius:50%; right:0; top:-3px; }
+.fi-note { display:flex; gap:1rem; align-items:center; border-top:1px solid #35464d; margin-top:1.8rem; padding-top:1.4rem; }
+.fi-note p { margin:0; color:#aab8bc; line-height:1.6; }
+.fi-note strong { color:#f2f1ec; font-weight:500; }
+.fi-signal { display:grid; place-items:center; flex:0 0 36px; height:36px; border:1px solid #e98777; border-radius:50%; color:#e98777; }
+.fi-disclosure { padding:.8rem 1.5rem; border-top:1px solid #35464d; color:#aab8bc; font-size:.75rem; line-height:1.5; }
+.fi-history { margin:1.5rem 0; }
+.fi-history > div { display:grid; grid-template-columns:70px 1fr 64px; gap:.7rem; align-items:center; padding:.85rem 0; font-size:.875rem; }
+.fi-history i { display:block; height:22px; width:var(--bar); border-radius:2px; background:#698b94; }
+.fi-history strong { text-align:right; font-weight:500; font-variant-numeric:tabular-nums; }
+.fi-current { border-top:1px dashed #e9877788; color:#ffb4a4; }
+.fi-current i { background:#e98777; }
+.fi-fine { color:#b7c4c8; line-height:1.6; font-size:.875rem; }
+.fi-details { border-top:1px solid #42555c; padding:.85rem 0; font-size:.875rem; line-height:1.6; }
+.fi-details summary { cursor:pointer; color:inherit; font-size:1rem; }
+.fi-details p { margin:.8rem 0 0; }
+.fi-details a { color:inherit; text-decoration:underline; text-underline-offset:4px; }
+.fi-details summary:focus-visible { outline:2px solid #e98777; outline-offset:5px; }
+.fi-request { padding:1rem 1.2rem; border-radius:10px 10px 0 10px; background:#2c414a; line-height:1.6; margin-bottom:1.5rem; }
+.fi-agent { display:flex; gap:.9rem; padding:.8rem 0; }
+.fi-agent-icon { flex:0 0 30px; height:30px; border:1px solid #698b94; border-radius:8px; text-align:center; line-height:30px; font:.875rem/30px ui-monospace,monospace; }
+.fi-agent p { margin:.35rem 0; color:#b7c4c8; line-height:1.5; font-size:.875rem; }
+.fi-agent strong { font-weight:550; }
+.fi-thread { margin-left:15px; border-left:1px solid #698b94; padding-left:1.25rem; }
+.fi-token { color:#b9d9d1; font:.75rem/1.5 ui-monospace,monospace; }
+.fi-return { border-top:1px solid #42555c; margin-top:1rem; padding-top:1rem; color:#b9d9d1; font-size:.875rem; }
+.fi-paper { color:#26373d; background:#f1efe7; }
+.fi-paper .fi-micro { color:#5a6b6f; }
+.fi-brief { margin:0; }
+.fi-brief > div { display:grid; grid-template-columns:90px 1fr; gap:1rem; padding:1rem 0; border-top:1px solid #cbd0c8; }
+.fi-brief dt { color:#64736f; font-size:.875rem; }
+.fi-brief dd { margin:0; font-size:1rem; line-height:1.5; }
+.fi-stamp { display:inline-block; color:#7a4940; border:1px solid #a77d70; padding:.6rem .8rem; font:.75rem/1.5 ui-monospace,monospace; margin-top:1.5rem; transform:rotate(-2deg); }
+.fi-file-heading { display:flex; justify-content:space-between; gap:1rem; }
+.fi-version { font:1rem ui-monospace,monospace; color:#60746c; }
+.fi-paper .fi-details { border-color:#cbd0c8; }
+.fi-report { padding:1.4rem; background:#dde5db; margin-top:1.5rem; border-left:3px solid #718a77; }
+.fi-report > span { font:.75rem ui-monospace,monospace; color:#52685b; }
+.fi-report strong { display:block; font-size:clamp(1.4rem,2.6vw,2.2rem); margin:.6rem 0; letter-spacing:-.04em; overflow-wrap:anywhere; }
+.fi-report strong span { color:#718a77; font-weight:400; }
+.fi-report p { font-size:.875rem; line-height:1.5; margin:0; }
+.fi-metrics { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin:2rem 0; }
+.fi-metrics div { display:grid; gap:.6rem; }
+.fi-metrics strong { font-size:clamp(2rem,4vw,3.5rem); font-weight:500; letter-spacing:-.055em; }
+.fi-metrics strong span { font-size:.5em; color:#aab8bc; }
+.fi-metrics div > span { color:#b7c4c8; font-size:.875rem; }
+.fi-result-bar { height:14px; border-radius:3px; background:#e98777; overflow:hidden; }
+.fi-result-bar span { display:block; width:84.49%; height:100%; background:#92b6ac; }
+.fi-result-key { display:flex; justify-content:space-between; gap:1rem; margin:.6rem 0 1.5rem; font-size:.875rem; color:#b7c4c8; }
+@media(max-width:860px) {
+.case-study-view[data-project="fraud-investigation"] .case-study-story { display:block; }
+.case-study-view[data-project="fraud-investigation"] .case-study-chapter { min-height:0; padding-block:2.5rem; }
+.case-study-view[data-project="fraud-investigation"] .case-study-figure { position:relative; }
+.case-study-view[data-project="fraud-investigation"] .case-study-figure > .fi-desk { height:auto; max-height:none; }
+.case-study-view[data-project="fraud-investigation"] .case-study-title { font-size:clamp(3rem,10vw,5rem); }
+.fi-scene { padding:1.5rem; }
+.fi-desk h4 { font-size:2rem; }
+.fi-amount { font-size:clamp(3rem,12vw,5rem); }
+.fi-metrics strong { font-size:2.6rem; }
+}
+@media(prefers-reduced-motion:reduce) { .case-study-view[data-project="fraud-investigation"] *, .case-study-view[data-project="fraud-investigation"] *:after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+.fi-desk .fi-details { margin:0; border-bottom:0; padding:.8rem 0; }
+.fi-desk .fi-details summary { min-height:24px; line-height:1.5; display:list-item; list-style:disclosure-closed inside; }
+.fi-desk .fi-details[open] summary { list-style-type:disclosure-open; }
+.fi-desk .fi-details summary:hover { color:inherit; }
+.fi-desk--record h4 { margin-bottom:1.25rem; }
+.fi-desk--record .fi-report { margin-top:1rem; padding:1rem; }

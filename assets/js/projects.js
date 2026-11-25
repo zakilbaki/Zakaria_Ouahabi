@@ -9,8 +9,8 @@ window.portfolioProjects = [
     stack: ["Microsoft Copilot Studio", "Python", "FastAPI", "CatBoost", "SQLite", "RAG", "Pydantic"],
     caseStudyDemo: true,
     caseStudyCategory: "Financial crime · Agentic AI",
-    caseStudyTitle: "Fraud Investigation",
-    caseStudySubtitle: "An analyst-facing workflow that connects transaction evidence, a frozen fraud model and versioned investigation procedures.",
+    caseStudyTitle: "Follow the evidence.",
+    caseStudySubtitle: "From a suspicious transaction to a reviewable case. An agentic investigation built with Copilot Studio and Python.",
     image: "assets/visuals/fraud-investigation/cover-editorial-v2.jpg",
     imageAlt: "Illustrative financial investigation scene with a magnifying glass over transaction statements, highlighted amounts and a laptop displaying charts.",
     repo: "https://github.com/zakilbaki/fraud-investigation",
@@ -21,46 +21,48 @@ window.portfolioProjects = [
     ],
     story: [
       {
-        eyebrow: "01 · Route the investigation",
-        title: "Send each question to the right specialist.",
-        body: "A Coordinator delegates operational questions to a Fraud Investigator and procedure questions to an Investigation Policy Agent. Mixed requests can combine both. The response preserves the requested scope, transaction identifiers and evidence returned by each specialist.",
-        points: ["Transaction facts and model scores come from authenticated tools", "Policy answers retrieve versioned procedures with citations", "Missing evidence and tool failures stay explicit"],
-        image: "assets/visuals/fraud-investigation/architecture.svg",
-        imageAlt: "System architecture showing a coordinator, fraud investigator and investigation policy agent connected to transaction APIs, a frozen model and versioned procedures."
+            "eyebrow": "01 · The alert",
+            "title": "One transfer. An open question.",
+            "body": "A flagged transaction arrives. Before deciding what it means, the analyst needs its context. Follow fictional case FI-042 through the investigation.",
+            "visualType": "investigation",
+            "scene": "alert"
       },
       {
-        eyebrow: "02 · Retrieve transaction evidence",
-        title: "Use bounded tools and time-correct history.",
-        body: "The investigator can retrieve a transaction, earlier account activity and a model score through authenticated Python APIs. Recipient history only includes transactions strictly before the requested cutoff. Direct lookups and scores do not create a saved case.",
-        points: ["Validated HTTP operations, not arbitrary SQL", "Historical features exclude same-step and future transactions", "Case writes require an explicit request and stable retry key"],
-        image: "assets/visuals/fraud-investigation/evidence.svg",
-        imageAlt: "Transaction ID flows through validated lookup, prior account history and frozen model scoring to a traceable evidence record."
+            "eyebrow": "02 · The evidence",
+            "title": "What happened before this transfer?",
+            "body": "The Investigator retrieves the transaction and the recipient’s earlier activity. The cutoff matters: future activity cannot explain a decision made now.",
+            "visualType": "investigation",
+            "scene": "evidence"
       },
       {
-        eyebrow: "03 · Freeze the model policy",
-        title: "Separate fitting, threshold selection and final evaluation.",
-        body: "The final CatBoost pipeline uses a chronological PaySim protocol: fit on steps 1-360, select the threshold on 361-432, reserve 433-504 for development choices, and evaluate the frozen model on 505-743. The selected threshold is 0.312318.",
-        points: ["Candidate models were compared before the final test", "Threshold and feature order are recorded in a frozen manifest", "Final data are synthetic PaySim transactions"],
-        image: "assets/visuals/fraud-investigation/protocol.svg",
-        imageAlt: "Chronological PaySim model protocol showing fit, threshold selection, development reserve and a final frozen test period."
+            "eyebrow": "03 · The investigation",
+            "title": "Facts first. Then the procedure.",
+            "body": "The Coordinator brings two specialists together. One retrieves operational evidence through bounded tools. The other grounds the next steps in versioned policy documents.",
+            "visualType": "investigation",
+            "scene": "agents"
       },
       {
-        eyebrow: "04 · Evaluate the alert signal",
-        title: "Make the operating point visible to the analyst.",
-        body: "At the frozen threshold, the final synthetic test recorded 98.69% precision and 84.49% recall, with 2,190 frauds detected and 29 false alerts across 298,584 transactions. The score supports investigation; it does not establish that a real payment is fraudulent.",
-        points: ["F1: 0.9104", "2,592 frauds in the test set", "The reported results describe synthetic data, not production performance"],
-        image: "assets/visuals/fraud-investigation/results.svg",
-        imageAlt: "Frozen CatBoost test results on synthetic PaySim transactions: 98.69 percent precision, 84.49 percent recall, 2,190 detected frauds and 29 false alerts."
+            "eyebrow": "04 · The decision",
+            "title": "Help the analyst see clearly.",
+            "body": "The response brings evidence, model output and cited guidance into one brief. Missing information stays visible. The analyst keeps responsibility for the investigation decision.",
+            "visualType": "investigation",
+            "scene": "decision"
       },
       {
-        eyebrow: "05 · Preserve case provenance",
-        title: "Turn an investigation into a reviewable record.",
-        body: "When explicitly requested, the system can save a case, record checks and generate versioned JSON and Markdown reports that reference those checks. Stable retry keys prevent duplicate writes. The repository includes 20 independent routing scenarios; they document expected boundaries and do not claim a measured pass rate.",
-        points: ["Versioned evidence snapshots", "Recorded checks linked to reports", "Human analyst retains the investigation decision"],
-        image: "assets/visuals/fraud-investigation/case-record.svg",
-        imageAlt: "Evidence-backed investigation record linking transaction lookup, model scoring, cited policy checks and a versioned report."
+            "eyebrow": "05 · The case file",
+            "title": "Leave a trail someone can review.",
+            "body": "On an explicit request, the investigation becomes a saved case. Recorded checks and versioned reports preserve how the findings were obtained. Open the pieces of the file to inspect their purpose.",
+            "visualType": "investigation",
+            "scene": "record"
+      },
+      {
+            "eyebrow": "06 · The measured signal",
+            "title": "An investigation tool. A measured model.",
+            "body": "The story above is illustrative. These results come from the repository’s frozen CatBoost evaluation on synthetic PaySim transactions. Precision and recall describe the alert signal, not the quality of a complete investigation.",
+            "visualType": "investigation",
+            "scene": "results"
       }
-    ]
+]
   },
   {
     id: "online-retail-retention",
@@ -578,3 +580,4 @@ window.portfolioProjects = [
       "Add a validation flow diagram and a short notebook focused on error reading."
   }
 ];
+

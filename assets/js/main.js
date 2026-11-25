@@ -1085,6 +1085,7 @@ function paperpalArchitectureVisualTemplate() {
 }
 
 function storyVisualTemplate(step) {
+  if (step.visualType === "investigation") return window.investigationVisual(step.scene);
   if (step.visualType === "method") return methodVisualTemplate();
   if (step.visualType === "results") return resultsVisualTemplate(step);
   if (step.visualType === "forecastTimeline") return forecastTimelineVisualTemplate();
@@ -1461,3 +1462,4 @@ document.addEventListener("click", (event) => {
     siteNav.classList.remove("is-open");
   }
 });
+
