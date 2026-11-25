@@ -1172,7 +1172,7 @@ function renderCaseStudyStory(project) {
           ${storyVisualTemplate(step)}
           ${step.brand ? `<span class="case-study-figure-brand">${step.brand}</span>` : ""}
           ${step.caption ? `<figcaption>${step.caption}</figcaption>` : ""}
-          ${step.image ? `<button type="button" class="story-enlarge" data-detail-image="${step.image}" data-detail-alt="${step.imageAlt || ""}" data-detail-title="${step.title}">View full image <span aria-hidden="true">↗</span></button>` : ""}
+          ${step.image && step.enlarge !== false ? `<button type="button" class="story-enlarge" data-detail-image="${step.image}" data-detail-alt="${step.imageAlt || ""}" data-detail-title="${step.title}">View full image <span aria-hidden="true">↗</span></button>` : ""}
         </figure>
       `
     )

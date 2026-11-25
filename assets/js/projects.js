@@ -26,7 +26,7 @@ window.portfolioProjects = [
       "body": "Transaction lookup, recipient history, model scoring and alert interpretation in Copilot Studio.",
       "image": "https://raw.githubusercontent.com/zakilbaki/fraud-investigation/main/docs/assets/demo.gif",
       "imageAlt": "Animated demonstration of a transaction investigation in Copilot Studio.",
-      "caption": "Synthetic PaySim data · Shortened pauses and accelerated playback."
+      "enlarge": false
 },
       {
             "eyebrow": "02 · Architecture",
