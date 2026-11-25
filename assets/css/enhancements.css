@@ -47,3 +47,8 @@
 .project-document { max-width:900px; margin:3rem auto; padding:1rem; }
 .project-document p { line-height:1.7; }
 @media(max-width:860px) { .case-study-figure > .technical-visual { height:auto; max-height:none; } }
+
+/* Give the selected tagline its own hierarchy within the existing hero. */
+.hero-tagline { display:block; margin:0 0 1rem; color:var(--forest); font-size:clamp(.875rem, 3.4vw, 2.5rem); white-space:nowrap; font-weight:650; line-height:1.15; letter-spacing:-.035em; }
+.hero-lede:has(.hero-tagline) { max-width:900px; }
+.hero-description { display:block; max-width:640px; margin-inline:auto; }
