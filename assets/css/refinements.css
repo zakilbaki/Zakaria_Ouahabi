@@ -500,3 +500,12 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; font-weight: 650; }
   .vt-observed li { padding-block: .45rem; }
   .vt-target { padding: .6rem; gap: .25rem; }
 }
+
+/* Size split counts against their own segment, not the viewport. */
+.fraud-time-segment { container-type: inline-size; }
+.fraud-time-segment strong {
+  font-size: min(2.45rem, 23cqw);
+  line-height: 1.15;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
