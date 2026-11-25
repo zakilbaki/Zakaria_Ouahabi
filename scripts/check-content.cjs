@@ -1,0 +1,4 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');const root=path.resolve(__dirname,'..'),ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'assets/js/projects.js'),'utf8'),ctx);const ps=ctx.window.portfolioProjects;
+assert.equal(ps.length,7);assert.equal(new Set(ps.map(p=>p.id)).size,7);
+for(const p of ps){for(const image of [p.image,p.detailImage,...p.story.map(s=>s.image)].filter(Boolean)){assert.ok(!/^https?:/.test(image),'Project media must be local');assert.ok(fs.existsSync(path.join(root,image)),image);}const page=fs.readFileSync(path.join(root,'projects',p.id,'index.html'),'utf8');assert.ok(page.includes(`projects/${p.id}/`));assert.ok(page.includes('class="project-document"'));}
+console.log('Seven shareable project pages and their local assets verified.');

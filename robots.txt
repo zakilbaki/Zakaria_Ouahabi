@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zakilbaki.github.io/Zakaria_Ouahabi/sitemap.xml

@@ -1,85 +1,53 @@
 # Zakaria Ouahabi Portfolio
 
-Static portfolio for Zakaria Ouahabi, focused on data science, applied AI and ML systems.
+A static Data Science and AI Engineering portfolio published with GitHub Pages. No framework, dependency installation or model execution is required.
 
-## Structure
-
-- `index.html`: main page.
-- `assets/css/styles.css`: original visual system and project-specific diagrams.
-- `assets/css/refinements.css`: current homepage, typography, case-study navigation and responsive reading layouts.
-- `assets/js/projects.js`: editable case-study content.
-- `assets/js/main.js`: project rendering, filters, accessible dialogs, chapter navigation and scroll transitions.
-- `scripts/verify-portfolio.cjs`: browser checks and screenshots at four viewport sizes.
-- `tools/generate_visuals.py`: local PNG visual generator.
-- `tools/build_paperpal_gifs.py`: rebuilds the PaperPal workflow and chatbot GIFs.
-- `paperpal-showcase/`: frontend-only Streamlit interface used for PaperPal portfolio media.
-
-## Edit Projects
-
-Add or update a project object in `assets/js/projects.js`. The homepage uses `id`,
-`title`, `subtitle`, `category`, `filterCategory`, `image`, `imageAlt`, `repo` and
-`cardStack` (three key technologies). Category filters and the project count update
-automatically. Keep IDs unique and stable.
-
-For a complete case study, set `caseStudyDemo: true` and provide:
-
-- `caseStudyTitle`, `caseStudyCategory`, `caseStudySubtitle`: the opening cover text.
-- `overview`: three `{ label, text }` entries for the question, contribution and output.
-- `story`: ordered chapters with `eyebrow`, `title`, `body` and optional `points`.
-- `stack`: the complete technology list, shown with local logos at the end.
-
-An image chapter needs `image` and `imageAlt`. Use a full-resolution local file;
-the reader can enlarge it without leaving the story. A chapter can instead set
-`visualType` to a supported diagram in `storyVisualTemplate` in `main.js`.
-Keep the numeric inputs next to the relevant story chapter where supported.
-
-On desktop, chapters share a sticky visual area. On mobile the same figures move
-into their corresponding chapters, without duplicate images. Chapter navigation,
-keyboard focus, reduced motion and the full-image dialog work in both layouts.
-
-Prefer a concrete question, your implementation decisions and contextualized
-results. State the evaluation split next to reported scores. Distinguish a product
-concept or planned integration from a shipped feature. Do not present an example
-station forecast or payment as a live result.
-
-## Run Locally
-
-Open `index.html` directly in a browser, or serve the folder:
+## Local preview
 
 ```bash
-python3 -m http.server 5173
+npm run dev
 ```
 
-Then open `http://127.0.0.1:5173`.
+Open http://localhost:5173. The equivalent command is `python3 -m http.server 5173`.
 
-The portfolio itself is plain HTML, CSS and JavaScript. No framework build is
-needed to preview or publish these files.
+## Content and presentation
 
-## Verify
+- `index.html`: homepage, professional experience and engineering notes.
+- `assets/js/projects.js`: seven project case studies in display order.
+- `assets/js/main.js`: filters, dialogs, chapter synchronization, shared URLs and browser history.
+- `assets/js/investigation.js`: Fraud Investigation architecture and record diagrams.
+- `assets/js/explorers.js`: client-side retrieval weighting, documented fraud thresholds and technical visuals.
+- `assets/css/styles.css` and `refinements.css`: existing visual system.
+- `assets/css/investigation.css` and `enhancements.css`: scoped project styling and lightweight additions.
+- `assets/docs/Zakaria_Ouahabi_CV.pdf`: supplied resume, preserved byte for byte.
 
-With Playwright and Chrome available in the Node environment, start the static
-server, then run:
+Project media is served locally. Large photographic covers use resized JPEG derivatives; source PNGs remain available. The Fraud Investigation GIF is a local copy of the project's public demonstration. Its captions and enlargement link remain disabled as requested.
+
+## Build and verify
+
+After changing content or the homepage:
 
 ```bash
-PORTFOLIO_URL=http://127.0.0.1:5173 node scripts/verify-portfolio.cjs
+npm run build
+npm run check
 ```
 
-The check covers every case study at 1440, 820, 390 and 320 pixels, image
-loading, filters, chapter activation, image enlargement, keyboard focus, reduced
-motion and expanded experience entries. Screenshots go to
-`/tmp/portfolio-verification`; override with `PORTFOLIO_SCREENSHOTS`.
+The build creates static `projects/<id>/index.html` pages with unique metadata, canonical URLs and readable project content. It also writes `sitemap.xml` and `robots.txt`. JavaScript opens the same immersive case-study experience on these URLs. Back/Forward and direct project links preserve navigation.
 
-Set `PORTFOLIO_PROJECT=online-retail-retention` to focus story checks on that project.
+The check validates JavaScript syntax, project IDs, generated pages and local media references. Before publishing UI changes, verify the affected interactions at desktop and mobile sizes, including keyboard access and reduced motion. The optional legacy `scripts/verify-portfolio.cjs` requires a separately installed Playwright/Chrome environment.
 
-## Source Notes
+GitHub Pages deploys the static repository on pushes to `main` through `.github/workflows/pages.yml`. No Next.js or TypeScript build is used.
 
-Content is based on `assets/docs/Zakaria_Ouahabi_CV.pdf` and the public GitHub repositories under `zakilbaki`.
+## Evidence conventions
 
-Retail retention charts include unchanged saved outputs from notebook 04 and
-model comparison values reported in notebook 07. The churn timeline is illustrative.
-Scores describe development validation; the reserved final test is not evaluated.
-Regenerate these assets with Matplotlib installed:
+Use the resume for professional and academic history; use project artifacts and methodological documentation for project metrics. Keep selection results distinct from independent evaluation.
 
-```bash
-python scripts/build-retention-visuals.py /path/to/online-retail-retention
-```
+- Fraud Investigation: 20 documented routing scenarios are not a pass-rate claim. CatBoost metrics describe a separate synthetic PaySim evaluation.
+- PaperPal: the recorded local retrieval experiment is distinct from generated-answer quality and the broader product experience. The weight explorer uses documentation excerpts and explicitly illustrative component scores.
+- Vélib: the map is a product illustration, not a set of recorded predictions. No prediction explorer is offered without saved forecast records.
+- Retail: Average Precision is stored under `PR_AUC` in the source implementation. The two displayed periods are development validation.
+- Credit cards: the four thresholds and some feature iterations used the evaluated period; scores are not calibrated probabilities.
+- Industrial defects: the notebook ensemble/PCA result is separate from the reusable Elastic Net pipeline.
+- Brain MRI: metrics are from 51 validation images; Grad-CAM is an inspection aid, not a causal explanation.
+
+Other repositories are linked as sources, never modified by this site's build.

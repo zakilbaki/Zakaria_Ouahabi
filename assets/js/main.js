@@ -1,3 +1,8 @@
+document.documentElement.classList.add("js");
+// Freeze the asset base before History API navigation changes the document URL.
+const assetBase = document.querySelector('base') || document.createElement('base');
+assetBase.href = new URL(assetBase.getAttribute('href') || '.', location.href).href;
+if (!assetBase.isConnected) document.head.prepend(assetBase);
 const grid = document.querySelector("#project-grid");
 const filters = document.querySelector("#project-filters");
 const navToggle = document.querySelector(".nav-toggle");
@@ -28,6 +33,7 @@ const technologyLogoMap = {
   ROC: "assets/logos/pytorch.svg",
   "PR curve": "assets/logos/pytorch.svg",
   Kaggle: "assets/logos/kaggle.svg",
+  "scikit-learn": "assets/logos/scikitlearn.svg",
   "Scikit-learn": "assets/logos/scikitlearn.svg",
   "Elastic Net": "assets/logos/scikitlearn.svg",
   Pandas: "assets/logos/pandas.svg",
@@ -67,12 +73,12 @@ function projectTemplate(project) {
   const titleId = `project-title-${slug}`;
   const action = project.caseStudyDemo
     ? `
-      <button
+      <a
         class="project-card-action"
-        type="button"
+        href="projects/${project.id}/"
         data-case-study="${project.id}"
         aria-label="Open ${project.title} project"
-      ><span class="sr-only">Open project</span></button>
+      ><span class="sr-only">Open project</span></a>
     `
     : project.detailImage
     ? `
@@ -248,7 +254,7 @@ function resultsVisualTemplate(step) {
       </div>
       <div class="case-study-result-facts">
         <div>
-          <strong>69%</strong>
+          <strong>69.05%</strong>
           <span>Defect recall</span>
         </div>
         <div>
@@ -384,7 +390,7 @@ function fraudTimelineVisualTemplate() {
       <div class="fraud-validation-rule">
         <span>Split rule</span>
         <strong>Sort by <code>Time</code>, then split once</strong>
-        <small>No random shuffle before the final evaluation.</small>
+        <small>Chronological split; feature and threshold selection also used the later period.</small>
       </div>
     </div>
   `;
@@ -427,7 +433,7 @@ function fraudModelVisualTemplate() {
           <li><strong>Weighted</strong> classes</li>
         </ul>
       </div>
-      <p class="fraud-model-output"><span>Output</span> Fraud probability from 0 to 1</p>
+      <p class="fraud-model-output"><span>Output</span> Fraud risk score from 0 to 1</p>
     </div>
   `;
 }
@@ -512,7 +518,7 @@ function fraudInferenceVisualTemplate() {
     <div
       class="fraud-inference"
       role="img"
-      aria-label="Command-line fraud prediction returning probability 0.0015, a false decision, the P90 operating point and threshold 0.9907, with Pytest, Ruff and GitHub Actions validation"
+      aria-label="Command-line fraud prediction returning a risk score 0.0015, a false decision, the P90 operating point and threshold 0.9907, with Pytest, Ruff and GitHub Actions validation"
     >
       <div class="fraud-terminal">
         <div class="fraud-terminal-bar" aria-hidden="true"><i></i><i></i><i></i><span>fraud-detector</span></div>
@@ -615,11 +621,11 @@ function fraudScoreVisualTemplate() {
     <div
       class="fraud-journey fraud-score"
       role="img"
-      aria-label="Thirteen ordered features enter a class-weighted LightGBM classifier with 95 estimators and 20 leaves, producing fraud probability 0.0015187297"
+      aria-label="Thirteen ordered features enter a class-weighted LightGBM classifier with 95 estimators and 20 leaves, producing fraud risk score 0.0015187297"
     >
       <div class="fraud-journey-header">
         <span>Score · 03</span>
-        <strong>Features become a probability</strong>
+        <strong>Features become a risk score</strong>
       </div>
       <div class="fraud-score-flow">
         <div class="fraud-score-input">
@@ -635,7 +641,7 @@ function fraudScoreVisualTemplate() {
         </div>
         <b aria-hidden="true">→</b>
         <div class="fraud-score-output">
-          <span>Fraud probability</span>
+          <span>Fraud risk score</span>
           <strong>0.0015</strong>
           <small>0.1519%</small>
         </div>
@@ -671,7 +677,7 @@ function fraudDecisionVisualTemplate() {
           <span class="fraud-decision-score-marker"><b>Score</b><small>0.0015</small></span>
           <span class="fraud-decision-threshold-marker"><b>P90 threshold</b><small>0.9907</small></span>
         </div>
-        <div class="fraud-decision-labels" aria-hidden="true"><span>0</span><span>Probability</span><span>1</span></div>
+        <div class="fraud-decision-labels" aria-hidden="true"><span>0</span><span>Risk score</span><span>1</span></div>
       </div>
       <div class="fraud-decision-formula">
         <span>0.0015</span>
@@ -701,7 +707,7 @@ function fraudPolicyVisualTemplate() {
     <div
       class="fraud-journey fraud-policy"
       role="img"
-      aria-label="At the P90 operating point, precision is 90.5 percent and recall is 76 percent on the chronological holdout, with overall precision-recall AUC 0.7941"
+      aria-label="At the P90 operating point, precision is 90.5 percent and recall is 76 percent on the chronological holdout, with overall Average Precision 0.7941"
     >
       <div class="fraud-journey-header">
         <span>Policy · 05</span>
@@ -721,7 +727,7 @@ function fraudPolicyVisualTemplate() {
       </div>
       <div class="fraud-policy-summary">
         <span>Overall ranking quality</span>
-        <strong>PR-AUC 0.7941</strong>
+        <strong>Average Precision 0.7941</strong>
         <small>Final 20% chronological holdout · 56,962 transactions</small>
       </div>
     </div>
@@ -733,7 +739,7 @@ function fraudCliVisualTemplate() {
     <div
       class="fraud-journey fraud-cli"
       role="img"
-      aria-label="Fraud detection command-line interface returning probability 0.0015187297, false decision, P90 operating point and threshold 0.9907"
+      aria-label="Fraud detection command-line interface returning a risk score 0.0015187297, false decision, P90 operating point and threshold 0.9907"
     >
       <div class="fraud-journey-header">
         <span>Output · 06</span>
@@ -879,7 +885,7 @@ function fraudPolicySimpleVisualTemplate() {
       aria-label="About nine out of ten alerts correspond to fraud and about three out of four fraud cases are detected"
     >
       <div class="fraud-simple-heading">
-        <span>Final test period</span>
+        <span>Evaluated period</span>
         <strong>A visible balance between useful alerts and recovered fraud</strong>
       </div>
       <div class="fraud-simple-policy-panels">
@@ -1057,11 +1063,11 @@ function mriResultsVisualTemplate(step) {
         </div>
         <div>
           <strong>${step.prAuc}</strong>
-          <span>PR AUC</span>
+          <span>PR-AUC</span>
         </div>
       </div>
       <div class="mri-result-verdict">
-        <span>Final evaluation</span>
+        <span>Validation split · 51 images</span>
         <strong>${step.accuracy} accuracy</strong>
         <small>96.8% tumor recall at the selected threshold.</small>
       </div>
@@ -1085,6 +1091,8 @@ function paperpalArchitectureVisualTemplate() {
 }
 
 function storyVisualTemplate(step) {
+  const enhanced = window.portfolioVisual?.(step.visualType);
+  if (enhanced) return enhanced;
   if (step.visualType === "investigation") return window.investigationVisual(step.scene);
   if (step.visualType === "method") return methodVisualTemplate();
   if (step.visualType === "results") return resultsVisualTemplate(step);
@@ -1092,11 +1100,11 @@ function storyVisualTemplate(step) {
   if (step.visualType === "forecastResults") return forecastResultsVisualTemplate(step);
   if (step.visualType === "fraudTransaction") return fraudTransactionSimpleVisualTemplate();
   if (step.visualType === "fraudTimeline") return fraudTimelineVisualTemplate();
-  if (step.visualType === "fraudFeatures") return fraudFeaturesSimpleVisualTemplate();
+  if (step.visualType === "fraudFeatures") return fraudFeaturesVisualTemplate();
   if (step.visualType === "fraudScore") return fraudScoreSimpleVisualTemplate();
   if (step.visualType === "fraudDecision") return fraudDecisionSimpleVisualTemplate();
   if (step.visualType === "fraudPolicy") return fraudPolicySimpleVisualTemplate();
-  if (step.visualType === "fraudCli") return fraudResultSimpleVisualTemplate();
+  if (step.visualType === "fraudCli") return fraudCliVisualTemplate();
   if (step.visualType === "mriSamples") return mriSamplesVisualTemplate();
   if (step.visualType === "mriNetwork") return mriNetworkVisualTemplate();
   if (step.visualType === "mriGradcam") return mriGradcamVisualTemplate(step);
@@ -1233,10 +1241,12 @@ async function fadeCaseStudy(target) {
   return id === caseStudyTransitionId;
 }
 
-function openCaseStudy(button) {
+function openCaseStudy(button, navigate = true) {
   if (activeCaseStudyButton) return;
   const project = projects.find((item) => item.id === button.dataset.caseStudy);
   if (!project) return;
+  if (navigate) history.pushState({ portfolioNavigation: true }, "", new URL(`projects/${project.id}/`, document.baseURI));
+  setProjectMetadata(project);
   activeCaseStudyButton = button;
   caseStudyView.dataset.project = project.id;
   caseStudyImage.src = project.image;
@@ -1259,8 +1269,12 @@ function openCaseStudy(button) {
   void fadeCaseStudy(1);
 }
 
-async function closeCaseStudy() {
+async function closeCaseStudy(viewOnly = false) {
   if (!activeCaseStudyButton) return;
+  if (viewOnly !== true) {
+    if (history.state?.portfolioNavigation) { history.back(); return; }
+    history.replaceState(null, "", new URL("#projects", document.baseURI));
+  }
   if (!await fadeCaseStudy(0)) return;
   const returnFocus = activeCaseStudyButton;
   caseStudyView.classList.remove("is-preparing", "is-settled");
@@ -1273,6 +1287,7 @@ async function closeCaseStudy() {
   document.body.classList.remove("modal-open");
   setBackgroundInert(false);
   activeCaseStudyButton = null;
+  setProjectMetadata(null);
   returnFocus.focus({ preventScroll: true });
 }
 
@@ -1308,7 +1323,10 @@ function renderProjects() {
       ? projects
       : projects.filter((project) => project.filterCategory === activeCategory);
 
-  grid.innerHTML = visibleProjects.map(projectTemplate).join("");
+  grid.innerHTML = ["Featured Systems", "Applied Machine Learning"].map(group => {
+    const items = visibleProjects.filter(project => project.group === group);
+    return items.length ? `<h3 class="project-group-heading">${group}</h3>${items.map(projectTemplate).join("")}` : "";
+  }).join("");
   document.querySelector("#project-status").textContent = `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"} shown`;
   document.querySelector(".project-count").textContent = ` / ${String(projects.length).padStart(2, "0")}`;
   requestAnimationFrame(hydrateReveals);
@@ -1346,6 +1364,8 @@ filters.addEventListener("click", (event) => {
 grid.addEventListener("click", (event) => {
   const caseStudyButton = event.target.closest("[data-case-study]");
   if (caseStudyButton) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
     openCaseStudy(caseStudyButton);
     return;
   }
@@ -1389,7 +1409,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Tab") {
     const dialog = visualModal.classList.contains("is-open") ? visualModal : activeCaseStudyButton ? caseStudyView : null;
     if (!dialog) return;
-    const controls = [...dialog.querySelectorAll("a[href], button")].filter((el) => !el.closest("[inert]") && el.getClientRects().length);
+    const controls = [...dialog.querySelectorAll("a[href], button, input, select, textarea, summary, [tabindex=\"0\"]")].filter((el) => !el.closest("[inert]") && el.getClientRects().length);
     const first = controls[0];
     const last = controls[controls.length - 1];
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
@@ -1463,3 +1483,35 @@ document.addEventListener("click", (event) => {
   }
 });
 
+
+// Project URLs work on first load, shared links and browser Back/Forward.
+function setProjectMetadata(project) {
+  const title = project ? `${project.title} | Zakaria Ouahabi` : "Zakaria Ouahabi | Data Scientist & AI Engineer";
+  const description = project ? project.subtitle : "Data Scientist and AI Engineer based in France. Predictive models, scientific retrieval and agentic systems.";
+  const url = project ? new URL(`projects/${project.id}/`, document.baseURI).href : new URL('.', document.baseURI).href;
+  document.title = title;
+  document.querySelector('meta[name="description"]').content = description;
+  for (const key of ['og:title','twitter:title']) document.querySelector(`meta[property="${key}"],meta[name="${key}"]`)?.setAttribute('content',title);
+  for (const key of ['og:description','twitter:description']) document.querySelector(`meta[property="${key}"],meta[name="${key}"]`)?.setAttribute('content',description);
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href',url);
+  document.querySelector('meta[property="og:url"]')?.setAttribute('content',url);
+  const image = new URL(project?.image || 'assets/visuals/fraud-investigation/cover-editorial-v2.jpg',document.baseURI).href;
+  for (const key of ['og:image','twitter:image']) document.querySelector(`meta[property="${key}"],meta[name="${key}"]`)?.setAttribute('content',image);
+}
+function projectFromLocation() {
+  const id = location.pathname.match(/\/projects\/([^/]+)\/?$/)?.[1];
+  return projects.find(project => project.id === id);
+}
+let routeQueue = Promise.resolve();
+async function syncProjectRoute() {
+  const target = projectFromLocation();
+  if (target?.id === caseStudyView.dataset.project && activeCaseStudyButton) return;
+  if (visualModal.classList.contains('is-open')) closeVisualModal();
+  if (activeCaseStudyButton) await closeCaseStudy(true);
+  if (!target) return;
+  let link = grid.querySelector(`[data-case-study="${target.id}"]`);
+  if (!link) { activeCategory = 'All'; renderFilters(); renderProjects(); link = grid.querySelector(`[data-case-study="${target.id}"]`); }
+  openCaseStudy(link, false);
+}
+window.addEventListener('popstate', () => { routeQueue = routeQueue.then(syncProjectRoute); });
+void syncProjectRoute();

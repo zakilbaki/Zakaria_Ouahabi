@@ -1,24 +1,10 @@
 {
   "name": "zakaria-ouahabi-portfolio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "next": "16.2.12",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "4.3.3",
-    "@types/node": "^24.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "postcss": "8.5.22",
-    "tailwindcss": "4.3.3",
-    "typescript": "^5.9.0"
+    "dev": "python3 -m http.server 5173",
+    "build": "node scripts/build-project-pages.cjs",
+    "check": "node --check assets/js/main.js && node --check assets/js/projects.js && node --check assets/js/explorers.js && node --check assets/js/investigation.js && node scripts/check-content.cjs"
   }
 }
