@@ -11,8 +11,8 @@ window.portfolioProjects = [
     caseStudyCategory: "Financial crime · Agentic AI",
     caseStudyTitle: "Fraud Investigation",
     caseStudySubtitle: "An analyst-facing workflow that connects transaction evidence, a frozen fraud model and versioned investigation procedures.",
-    image: "assets/visuals/fraud-investigation/cover.svg",
-    imageAlt: "A fraud investigation workflow linking a transaction to specialist agents, a fraud score and cited evidence.",
+    image: "assets/visuals/fraud-investigation/cover-editorial-v2.jpg",
+    imageAlt: "Illustrative financial investigation scene with a magnifying glass over transaction statements, highlighted amounts and a laptop displaying charts.",
     repo: "https://github.com/zakilbaki/fraud-investigation",
     overview: [
       { label: "The question", text: "How can an analyst investigate a transaction with traceable evidence and clear policy guidance?" },
