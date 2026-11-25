@@ -9,8 +9,8 @@ window.portfolioProjects = [
     stack: ["Microsoft Copilot Studio", "Python", "FastAPI", "CatBoost", "SQLite", "RAG", "Pydantic"],
     caseStudyDemo: true,
     caseStudyCategory: "Financial crime · Agentic AI",
-    caseStudyTitle: "Follow the evidence.",
-    caseStudySubtitle: "From a suspicious transaction to a reviewable case. An agentic investigation built with Copilot Studio and Python.",
+    caseStudyTitle: "Fraud Investigation.",
+    caseStudySubtitle: "Transaction evidence, model scores and cited procedures. One investigation workflow.",
     image: "assets/visuals/fraud-investigation/cover-editorial-v2.jpg",
     imageAlt: "Illustrative financial investigation scene with a magnifying glass over transaction statements, highlighted amounts and a laptop displaying charts.",
     repo: "https://github.com/zakilbaki/fraud-investigation",
@@ -21,46 +21,27 @@ window.portfolioProjects = [
     ],
     story: [
       {
-            "eyebrow": "01 · The alert",
-            "title": "One transfer. An open question.",
-            "body": "A flagged transaction arrives. Before deciding what it means, the analyst needs its context. Follow fictional case FI-042 through the investigation.",
+            "eyebrow": "01 · Architecture",
+            "title": "Two specialists. One investigation.",
+            "body": "A Coordinator routes each request. The Fraud Investigator retrieves transaction evidence and model scores through authenticated Python APIs. The Policy Agent retrieves procedures with citations.",
             "visualType": "investigation",
-            "scene": "alert"
+            "scene": "architecture",
+            "image": "assets/visuals/fraud-investigation/architecture.svg",
+            "imageAlt": "Coordinator connected to the Fraud Investigator and authenticated Python APIs, and to the Investigation Policy Agent and versioned policy corpus."
       },
       {
-            "eyebrow": "02 · The evidence",
-            "title": "What happened before this transfer?",
-            "body": "The Investigator retrieves the transaction and the recipient’s earlier activity. The cutoff matters: future activity cannot explain a decision made now.",
-            "visualType": "investigation",
-            "scene": "evidence"
-      },
-      {
-            "eyebrow": "03 · The investigation",
-            "title": "Facts first. Then the procedure.",
-            "body": "The Coordinator brings two specialists together. One retrieves operational evidence through bounded tools. The other grounds the next steps in versioned policy documents.",
-            "visualType": "investigation",
-            "scene": "agents"
-      },
-      {
-            "eyebrow": "04 · The decision",
-            "title": "Help the analyst see clearly.",
-            "body": "The response brings evidence, model output and cited guidance into one brief. Missing information stays visible. The analyst keeps responsibility for the investigation decision.",
-            "visualType": "investigation",
-            "scene": "decision"
-      },
-      {
-            "eyebrow": "05 · The case file",
-            "title": "Leave a trail someone can review.",
-            "body": "On an explicit request, the investigation becomes a saved case. Recorded checks and versioned reports preserve how the findings were obtained. Open the pieces of the file to inspect their purpose.",
-            "visualType": "investigation",
-            "scene": "record"
-      },
-      {
-            "eyebrow": "06 · The measured signal",
-            "title": "An investigation tool. A measured model.",
-            "body": "The story above is illustrative. These results come from the repository’s frozen CatBoost evaluation on synthetic PaySim transactions. Precision and recall describe the alert signal, not the quality of a complete investigation.",
+            "eyebrow": "02 · Results",
+            "title": "A measured fraud signal.",
+            "body": "The frozen CatBoost model was evaluated on 298,584 synthetic PaySim transactions. Its score helps prioritize investigation; the analyst retains the decision.",
             "visualType": "investigation",
             "scene": "results"
+      },
+      {
+            "eyebrow": "03 · Case record",
+            "title": "Keep the evidence reviewable.",
+            "body": "On explicit request, the system saves a case and its checks. Versioned reports retain the evidence and model identity behind the findings.",
+            "visualType": "investigation",
+            "scene": "record"
       }
 ]
   },

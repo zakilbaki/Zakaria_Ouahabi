@@ -95,3 +95,29 @@
 .fi-desk .fi-details summary:hover { color:inherit; }
 .fi-desk--record h4 { margin-bottom:1.25rem; }
 .fi-desk--record .fi-report { margin-top:1rem; padding:1rem; }
+
+/* Simplified three-part presentation, with architecture restored first. */
+.fi-architecture { display:flex; flex-direction:column; justify-content:center; }
+.fi-coordinator { align-self:center; text-align:center; border:1px solid #78968d; background:#2c4144; border-radius:10px; padding:1rem 1.5rem; }
+.fi-coordinator h4 { font-size:1.65rem; margin:.35rem 0; }
+.fi-coordinator p { font-size:.875rem; color:#b7c4c8; margin:0; }
+.fi-branches { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; padding-top:2rem; position:relative; }
+.fi-branches:before { content:''; position:absolute; height:1rem; width:50%; left:25%; top:1rem; border:1px solid #78968d; border-bottom:0; }
+.fi-coordinator:after { content:''; display:block; height:1rem; border-left:1px solid #78968d; position:absolute; left:50%; margin-top:1rem; }
+.fi-branch { min-width:0; }
+.fi-specialist { border:1px solid #526970; border-radius:8px; padding:1rem; background:#21343c; min-height:128px; }
+.fi-specialist h4 { font-size:1.3rem; margin:.6rem 0 0; }
+.fi-specialist .fi-micro { font-size:.7rem; letter-spacing:.02em; }
+.fi-source { border-top:1px solid #526970; margin-top:1rem; padding-top:1rem; }
+.fi-source strong { font-size:.875rem; font-weight:550; color:#c9ddd4; }
+.fi-source p { font-size:.875rem; line-height:1.65; color:#b7c4c8; margin:.6rem 0 0; }
+.case-study-view[data-project="fraud-investigation"] .case-study-chapter { min-height:78svh; }
+.case-study-view[data-project="fraud-investigation"] .case-study-figure:has(.fi-desk--architecture) { grid-template-rows:minmax(0,1fr) auto; }
+@media(max-width:860px) {
+.case-study-view[data-project="fraud-investigation"] .case-study-chapter { min-height:0; }
+.fi-architecture { padding:1.25rem .85rem; }
+.fi-branches { gap:.75rem; }
+.fi-specialist { padding:.8rem; }
+.fi-specialist h4 { font-size:1.1rem; }
+.fi-source strong,.fi-source p { font-size:.8125rem; }
+}
