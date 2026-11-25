@@ -20,8 +20,16 @@ window.portfolioProjects = [
       { label: "The output", text: "An investigation workflow that keeps operational findings, model scores and procedures in context." }
     ],
     story: [
+{
+      "eyebrow": "01 · Demo",
+      "title": "See the investigation in action.",
+      "body": "Transaction lookup, recipient history, model scoring and alert interpretation in Copilot Studio.",
+      "image": "https://raw.githubusercontent.com/zakilbaki/fraud-investigation/main/docs/assets/demo.gif",
+      "imageAlt": "Animated demonstration of a transaction investigation in Copilot Studio.",
+      "caption": "Synthetic PaySim data · Shortened pauses and accelerated playback."
+},
       {
-            "eyebrow": "01 · Architecture",
+            "eyebrow": "02 · Architecture",
             "title": "Two specialists. One investigation.",
             "body": "A Coordinator routes each request. The Fraud Investigator retrieves transaction evidence and model scores through authenticated Python APIs. The Policy Agent retrieves procedures with citations.",
             "visualType": "investigation",
@@ -30,14 +38,14 @@ window.portfolioProjects = [
             "imageAlt": "Coordinator connected to the Fraud Investigator and authenticated Python APIs, and to the Investigation Policy Agent and versioned policy corpus."
       },
       {
-            "eyebrow": "02 · Results",
+            "eyebrow": "03 · Results",
             "title": "A measured fraud signal.",
             "body": "The frozen CatBoost model was evaluated on 298,584 synthetic PaySim transactions. Its score helps prioritize investigation; the analyst retains the decision.",
             "visualType": "investigation",
             "scene": "results"
       },
       {
-            "eyebrow": "03 · Case record",
+            "eyebrow": "04 · Case record",
             "title": "Keep the evidence reviewable.",
             "body": "On explicit request, the system saves a case and its checks. Versioned reports retain the evidence and model identity behind the findings.",
             "visualType": "investigation",
